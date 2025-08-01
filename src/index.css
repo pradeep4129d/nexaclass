@@ -38,6 +38,12 @@ body {
   align-items: center;
   justify-content:space-between;
 }
+.auth{
+  color: #f9b17a;
+  position: absolute;
+  right: 5px;
+  top: 22px;
+}
 .logo{
   position: absolute;
   left: 5px;
@@ -57,12 +63,7 @@ a{
   text-decoration: none;
   color: #ffffff;
 }
-.auth{
-  color: #f9b17a;
-  position: absolute;
-  right: 5px;
-  top: 18px;
-}
+
 .auth>a{
   border: 2px solid #f9b17a;
   border-radius: 20px;
@@ -223,14 +224,18 @@ input{
   font-size: 16px;
   margin-top: 10px;
 }
+.details{
+  width: 100%;
+}
 select{
- width: 71%;
- background:#676f9d;
- color: #ffffff;
- padding: 10px;
- margin-top: 10px;
- border: none;
- border-radius: 5px;
- cursor: pointer;
+  font-size: 14px;
+  width: 70%;
+  background:#676f9d;
+  color: #ffffff;
+  padding:8px 5px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 

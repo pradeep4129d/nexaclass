@@ -76,25 +76,161 @@ a{
   background-color: #f9b17a;
 }
 .logincard{
-  width:250px;
-  height: 50vh;
-  background-color: #424769;
+  width:260px;
+  height: 270px;
+  background-color: #2d3250;
   border-radius: 15px;
   margin: auto;
-  display: flex;
+  display:flex;
   justify-content: center;
-  align-items: center;
+  align-items:center;
   position: relative;
 }
-form>h2{
+.logincard>form>h2{
   position: absolute;
+  width: 100%;
   top: 10px;
   left: 50%;
   transform:translateX(-50%);
 }
+.logincard>form{
+  display: inline;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-top:65%;
+  margin-left: 10px;
+  width: 84%;
+}
 .email{
   margin-top: -20px;
+  position: relative;
+}
+.email>ion-icon{
+  color: #f9b17a;
+  font-size: 20px;
+  position: absolute;
+  right: 6px;
+  top:50%;
+
+}
+.password{
+  position: relative;
+}
+.password>ion-icon{
+  color: #f9b17a;
+  font-size: 20px;
+  position: absolute;
+  right: 6px;
+  top:50%;
+}
+.email>input,.password>input{
+  background: #676f9d;
+  border:none;
+  border-radius: 10px;
+  height: 35px;
+  margin-top: 20px;
+  width: 100%;
+  color: #ffffff;
+  font-size: 14px;
+  padding-left: 10px;
+  margin-left: -10px;
+}
+#l-sub{
+  margin-top: 26px;
+  background: #f9b17a;
+  color: #ffffff;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  padding:8px 15px;
+}
+::placeholder{
+  color: #ffffff;
+}
+.register{
+  min-height: 250px;
+  background: #2d3250;
+  border-radius: 10px;
+  width: 260px;
+  padding-top:5px;
+}
+.verify{
+  position: relative;
+}
+.verify>input{
+  width: 85%;
+  background: #676f9d;
+  border:none;
+  border-radius: 10px;
+  height: 35px;
+  color: #ffffff;
+  font-size: 14px;
+  padding-left: 10px;
+  margin-bottom: 20px;
+}
+.verify>ion-icon{
+  position: absolute;
+  top: 9px;
+  right: 20px;
+  color: #f9b17a;
+  font-size: 20px;
+}
+.verify>button{
+  background-color: #f9b17a;
+  color: #ffffff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 500;
+  margin-top: 15px;
+}
+.time{
+  position: absolute;
+  left: 19px;
+  top: 43%;
+  font-size: 14px;
+}
+.details>form>input[type='radio']{
+  accent-color:#f9b17a;
+  background: #424769;
+}
+.register.student{
+  height: 400px;
+}
+.details>form{
+  display: inline;
+  justify-content: center;
+  align-items: center;
 }
 input{
-  background: #676f9d;
+  border: none;
+  border-radius: 5px;
 }
+.details>form>input{
+  background:  #676f9d;
+  color: #ffffff;
+  font-size: 14px;
+  padding:8px 5px;
+  margin-top: 10px;
+}
+.details>form>button{
+  color: #ffffff;
+  background: #f9b17a;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  margin-top: 10px;
+}
+select{
+ width: 71%;
+ background:#676f9d;
+ color: #ffffff;
+ padding: 10px;
+ margin-top: 10px;
+ border: none;
+ border-radius: 5px;
+ cursor: pointer;
+}
+

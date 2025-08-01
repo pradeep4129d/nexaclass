@@ -15,7 +15,7 @@ export const Login = () => {
           <input type="password" name="password" id="p" placeholder='password'/>
           <ion-icon name="key"></ion-icon>
         </div>
-        <button type='submit'>Submit</button>
+        <button type='submit' id='l-sub'>Submit</button>
       </form>
     </div>
   )

@@ -69,19 +69,14 @@ a{
   margin: 5px 5px;
   padding: 8px 13px;
   color:#f9b17a;
+  font-size: 14px;
 }
 .auth>a:hover{
   color: #ffffff;
   background-color: #f9b17a;
 }
-.starter{
-  display: inline;
-  justify-content: center;
-  align-items: center;
-}
-.starter>h1{
-  font-size:50px;
-}
-#vc{
-  color: #f9b17a;
+.login{
+  width:250px;
+  height: 60vh;
+  background-color: #424769;
 }

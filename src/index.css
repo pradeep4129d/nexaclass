@@ -75,8 +75,26 @@ a{
   color: #ffffff;
   background-color: #f9b17a;
 }
-.login{
+.logincard{
   width:250px;
-  height: 60vh;
+  height: 50vh;
   background-color: #424769;
+  border-radius: 15px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+form>h2{
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform:translateX(-50%);
+}
+.email{
+  margin-top: -20px;
+}
+input{
+  background: #676f9d;
 }

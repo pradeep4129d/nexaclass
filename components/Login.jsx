@@ -4,7 +4,7 @@ export const Login = () => {
   const handleSubmit=(e)=>{
   }
   return (
-    <div className='login'>
+    <div className='logincard'>
       <form onSubmit={handleSubmit}>
         <h2>Login</h2>
         <div className="email">

@@ -7,20 +7,41 @@ const Register = () => {
     const [otp,setOTP]=useState('');
     const [cp,setCp]=useState("");
     const [userDetails, setUserDetails]=useState({
-        email:null,
-        password:null,
-        role:null,
-        semester:null,
-        branch:null,
-        section:null
+        userName:"",
+        email:"",
+        password:"",
+        role:"",
+        semester:"",
+        branch:"",
+        section:""
     })
     const handlechange=(e)=>{
         setUserDetails({...userDetails,[e.target.id]:e.target.value})
     }
-    const handleSubmit=(e)=>{
+    const handleSubmit=async(e)=>{
         e.preventDefault();
         if(cp===userDetails.password){
 
+            console.log(userDetails);
+            const res= await fetch("http://localhost:3000/auth/register", {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                userName:userDetails.email.substring(0,9),
+                email:userDetails.email,
+                password:userDetails.password,
+                role:userDetails.role,
+                semester:userDetails.semester,
+                branch:userDetails.branch,
+                section:userDetails.section
+            }),
+        })
+        console.log(res.body);
+        if(res.ok){
+            alert("register successfull");
+        }
         }else
             alert("password mismatch")
     }
@@ -43,14 +64,40 @@ const Register = () => {
 
     return () => clearInterval(interval);
 }, [sentOTP]);
-    const handleVerify=(e)=>{
+    const handleVerify=async(e)=>{
+        console.log(userDetails.email);
         e.preventDefault();
-        setVerify(true);
+        const res= await fetch("http://localhost:3000/auth/verifyotp", {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email:userDetails.email,
+                otp:otp
+            }),
+        })
+        if(res.ok){
+            setVerify(true);
+        }
+
     }
-    const handleSentOTP=(e)=>{
+    const handleSentOTP=async(e)=>{
         e.preventDefault()
-        setSentOTP(true);
+        
         setTime({ min: 2, sec: 0 });
+        const res=await fetch("http://localhost:3000/auth/sendotp", {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email:userDetails.email
+            }),
+        })
+        if(res.ok){
+            setSentOTP(true);
+        }
     }
     return (
     <div className={`register `+userDetails.role}>
@@ -58,9 +105,9 @@ const Register = () => {
         {verify?<>
             <div className="details">
                 <form onSubmit={handleSubmit}>
-                    <input type="radio" name="student" id="role" value={"student"} onChange={handlechange} checked={userDetails.role==="student"} required={userDetails.role===null}/>Student 
-                    <input type="radio" name='faculty' id='role' value={"faculty"} onChange={handlechange} checked={userDetails.role==="faculty"} required={userDetails.role===null}/>Faculty
-                    {userDetails.role==="student" && <>
+                    <input type="radio" name="student" id="role" value={"STUDENT"} onChange={handlechange} checked={userDetails.role==="STUDENT"} required={userDetails.role===""}/>Student 
+                    <input type="radio" name='faculty' id='role' value={"FACULTY"} onChange={handlechange} checked={userDetails.role==="FACULTY"} required={userDetails.role===""}/>Faculty
+                    {userDetails.role==="STUDENT" && <>
                         <input type="text" id='section' placeholder='Section' onChange={handlechange} required/>
                         <select id='branch' value={userDetails.branch} required onChange={handlechange} >
                             <option value="">-- Branch --</option>
@@ -86,7 +133,7 @@ const Register = () => {
                 <button type='submit'>send OTP</button>
             </form>:
             <form onSubmit={handleVerify} className="verify">
-                <input type="text" id='otp' value={otp} onChange={(e)=>{setOTP(e.target.value)}} required placeholder='XXXX'/>
+                <input type="text" id='otp' value={otp} onChange={(e)=>{setOTP(e.target.value)}} required placeholder='XXXXXX'/>
                 <div className="time">{sentOTP && time.min!=0 || time.sec!=0?<>0{time.min}:{time.sec}</>:<><a onClick={()=>{setSentOTP(false)}} href="">resend OTP</a></>}</div>
                 <button type='submit'>verify OTP</button>
             </form>}

@@ -1,12 +1,18 @@
 import React, { useState } from 'react'
+import useStore from '../store/store'
 
 export const Login = () => {
   const [loginDetails,setLoginDetails]=useState({email:"",password:""})
+  const {setIsLoading,setLogin,setMessage}=useStore();
   const handleChange=(e)=>{
     setLoginDetails({...loginDetails,[e.target.name]:e.target.value});
   }
   const handleSubmit=async(e)=>{
     e.preventDefault();
+    if(!loginDetails.email.length>=11 || loginDetails.email.substring(10)!=="@sves.org.in"){
+      setMessage({color:"red",message:"Enter Valid College Email"})
+    }else{
+    setIsLoading(true);
     const res= await fetch("http://localhost:3000/auth/login", {
             method: "POST",
             headers: {
@@ -18,10 +24,18 @@ export const Login = () => {
             }),
         })
         if(res.ok){
-            alert("login successful");
+          const responce=await res.json();
+          setMessage({color:"green",message:"login successful"})
+          sessionStorage.setItem("token",responce.token)
+          setLogin(true);
+        }else{
+          setMessage({color:"red",message:"invalid Credentials!"})
         }
+        setIsLoading(false);
+    }
   }
   return (
+    <>
     <div className='logincard'>
       <form onSubmit={handleSubmit}>
         <h2>Login</h2>
@@ -36,5 +50,6 @@ export const Login = () => {
         <button type='submit' id='l-sub'>Submit</button>
       </form>
     </div>
+    </>
   )
 }

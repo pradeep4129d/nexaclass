@@ -1,4 +1,5 @@
 import React, { useState ,useEffect} from 'react'
+import useStore from '../store/store';
 
 const Register = () => {
     const [verify,setVerify]=useState(false);
@@ -6,6 +7,7 @@ const Register = () => {
     const [time,setTime]=useState({min:2,sec:0});
     const [otp,setOTP]=useState('');
     const [cp,setCp]=useState("");
+    const {setIsLoading, setMessage,setLogin}=useStore();
     const [userDetails, setUserDetails]=useState({
         userName:"",
         email:"",
@@ -15,14 +17,26 @@ const Register = () => {
         branch:"",
         section:""
     })
+    function isBetween(ch) {
+        return ch >= '1' && ch <= '8';
+    }
+    function isAlphabet(char) {
+        return /^[A-Za-z]$/.test(char);
+    }
     const handlechange=(e)=>{
         setUserDetails({...userDetails,[e.target.id]:e.target.value})
     }
     const handleSubmit=async(e)=>{
+        console.log(userDetails)
         e.preventDefault();
-        if(cp===userDetails.password){
-
-            console.log(userDetails);
+        if(cp!==userDetails.password){
+            setMessage({color:"red",message:"password mismatch"})
+        }else if(userDetails.semester.length>1 || !isBetween(userDetails.semester)){
+            setMessage({color:"red",message:"semester number must be 1-8"})
+        }else if(userDetails.section.length>1 || !isAlphabet(userDetails.section)){
+            setMessage({color:"red",message:"section must be an alphabet"})
+        }else{
+            setIsLoading(true);
             const res= await fetch("http://localhost:3000/auth/register", {
             method: "POST",
             headers: {
@@ -38,12 +52,16 @@ const Register = () => {
                 section:userDetails.section
             }),
         })
-        console.log(res.body);
-        if(res.ok){
-            alert("register successfull");
+            if(res.ok){
+                setMessage({color:"green",message:"registered successfully"})
+                const responce =await res.json();
+                sessionStorage.setItem("token",responce.token)
+                setLogin(true);
+            }else{
+                setMessage({color:"red",message:"error creating account"});
+            }
         }
-        }else
-            alert("password mismatch")
+        setIsLoading(false)
     }
     useEffect(() => {
     let interval = null;
@@ -61,12 +79,11 @@ const Register = () => {
         });
         }, 1000);
     }
-
     return () => clearInterval(interval);
 }, [sentOTP]);
     const handleVerify=async(e)=>{
-        console.log(userDetails.email);
         e.preventDefault();
+        setIsLoading(true)
         const res= await fetch("http://localhost:3000/auth/verifyotp", {
             method: "POST",
             headers: {
@@ -79,24 +96,35 @@ const Register = () => {
         })
         if(res.ok){
             setVerify(true);
+            setMessage({color:"green",message:"OTP verified"})
+        }else{
+            setMessage({color:"red",message:"Invalid OTP"})
         }
-
+        setIsLoading(false);
     }
     const handleSentOTP=async(e)=>{
         e.preventDefault()
-        
-        setTime({ min: 2, sec: 0 });
-        const res=await fetch("http://localhost:3000/auth/sendotp", {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email:userDetails.email
-            }),
-        })
-        if(res.ok){
-            setSentOTP(true);
+        if(!userDetails.email.length>=11 || userDetails.email.substring(10)!=="@sves.org.in"){
+            setMessage({color:"red",message:"Enter Valid College Email"})
+        }else{
+            setIsLoading(true)
+            const res=await fetch("http://localhost:3000/auth/sendotp", {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email:userDetails.email
+                }),
+            })
+            if(res.ok){
+                setMessage({color:"green",message:"OTP sent Successfully"})
+                setTime({ min: 2, sec: 0 });
+                setSentOTP(true);
+            }else{
+                setMessage({color:"red",message:"email already in use"})
+            }
+            setIsLoading(false)
         }
     }
     return (

@@ -4,8 +4,9 @@ const ContextProvider = createContext();
 export const Context = ({ children }) => {
 const [login, setLogin] = useState(false);
 const [userData, setUserData] = useState(null);
-const [message, setMessage] = useState(null);
+const [message, setMessage] = useState({color:'',message:''});
 const [refresh, setRefresh] = useState(false);
+const [isLoading,setIsLoading]=useState(false);
     return (
         <ContextProvider.Provider value={{
         login,
@@ -16,6 +17,8 @@ const [refresh, setRefresh] = useState(false);
         setMessage,
         refresh,
         setRefresh,
+        isLoading,
+        setIsLoading
         }}>{children}</ContextProvider.Provider>
     );
 };

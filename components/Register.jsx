@@ -30,11 +30,11 @@ const Register = () => {
         console.log(userDetails)
         e.preventDefault();
         if(cp!==userDetails.password){
-            setMessage({color:"red",message:"password mismatch"})
+            setMessage({color:"crimson",message:"password mismatch"})
         }else if(userDetails.semester.length>1 || !isBetween(userDetails.semester)){
-            setMessage({color:"red",message:"semester number must be 1-8"})
+            setMessage({color:"crimson",message:"semester number must be 1-8"})
         }else if(userDetails.section.length>1 || !isAlphabet(userDetails.section)){
-            setMessage({color:"red",message:"section must be an alphabet"})
+            setMessage({color:"crimson",message:"section must be an alphabet"})
         }else{
             setIsLoading(true);
             const res= await fetch("http://localhost:3000/auth/register", {
@@ -58,7 +58,7 @@ const Register = () => {
                 sessionStorage.setItem("token",responce.token)
                 setLogin(true);
             }else{
-                setMessage({color:"red",message:"error creating account"});
+                setMessage({color:"crimson",message:"error creating account"});
             }
         }
         setIsLoading(false)

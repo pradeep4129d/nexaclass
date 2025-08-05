@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
 import useStore from '../store/store'
+import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
   const [loginDetails,setLoginDetails]=useState({email:"",password:""})
-  const {setIsLoading,setLogin,setMessage}=useStore();
+  const {setIsLoading,setLogin,setMessage,refresh,setRefresh}=useStore();
+  const navigate=useNavigate()
   const handleChange=(e)=>{
     setLoginDetails({...loginDetails,[e.target.name]:e.target.value});
   }
   const handleSubmit=async(e)=>{
     e.preventDefault();
     if(!loginDetails.email.length>=11 || loginDetails.email.substring(10)!=="@sves.org.in"){
-      setMessage({color:"red",message:"Enter Valid College Email"})
+      setMessage({color:"crimson",message:"Enter Valid College Email"})
     }else{
     setIsLoading(true);
     const res= await fetch("http://localhost:3000/auth/login", {
@@ -27,9 +29,10 @@ export const Login = () => {
           const responce=await res.json();
           setMessage({color:"green",message:"login successful"})
           sessionStorage.setItem("token",responce.token)
+          setRefresh(refresh?false:true);
           setLogin(true);
         }else{
-          setMessage({color:"red",message:"invalid Credentials!"})
+          setMessage({color:"crimson",message:"invalid Credentials!"})
         }
         setIsLoading(false);
     }

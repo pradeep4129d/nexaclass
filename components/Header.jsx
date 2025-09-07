@@ -17,7 +17,7 @@ export const Header = () => {
                 </div>
             </div>:<>
                 <label className="event-wrapper">
-                    <input type="checkbox"  className="event-wrapper-inp" />
+                    <input type="checkbox"  id='ewi'  className="event-wrapper-inp" />
                     <div className="bar">
                         <span className="top bar-list"></span>
                         <span className="middle bar-list"></span>
@@ -35,6 +35,19 @@ export const Header = () => {
                         <div style={{color:"crimson"}} onClick={()=>{sessionStorage.removeItem("token");setLogin(false)}} className="menu-list">logout</div>
                     </section>
                 </label>
+                <div className="tab-container">
+                    <input type="radio" name="tab" id="tab1" className="tab tab--1" />
+                    <label className="tab_label" htmlFor="tab1">Class Rooms</label>
+                    <input type="radio" name="tab" id="tab2" className="tab tab--2" />
+                    <label className="tab_label" for="tab2">Quizes</label>
+                    <input type="radio" name="tab" id="tab3" className="tab tab--3" />
+                    <label className="tab_label" for="tab3">Tasks</label>
+                    <input type="radio" name="tab" id="tab4" className="tab tab--4" />
+                    <label className="tab_label" for="tab4">Tests </label>
+                    <div style={{color:"crimson"}} onClick={()=>{sessionStorage.removeItem("token");setLogin(false)}} className="menu-list">logout</div>
+
+                    <div className="indicator"></div>
+                </div>
             </>
             }
         </div>

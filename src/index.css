@@ -201,6 +201,7 @@
 .event-wrapper > .event-wrapper-inp {
   display: none;
 }
+
 .event-wrapper {
   font-weight: 500;
   color: white;
@@ -248,7 +249,9 @@
 .event-wrapper > .event-wrapper-inp:checked + .arrow {
   transform: rotateX(180deg);
 }
-
+.tab-container{
+  display: none;
+}
 .menu-container {
   background-color: #2d3250;
   color: white;
@@ -296,7 +299,6 @@
   transform: translateY(0);
   opacity: 1;
 }
-
 .event-wrapper-inp:not(:checked) ~ .menu-container .menu-list:nth-child(1) {
   transition:
     transform 0.4s var(--delay),

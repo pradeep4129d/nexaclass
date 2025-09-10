@@ -39,7 +39,8 @@ function App() {
       navigate("/");
       }
       fetchdata();
-    }
+    }else 
+      setLogin(false)
   },[refresh])
   return (
     <>
@@ -48,7 +49,7 @@ function App() {
     <Routes>
       {login?
         <>
-        <Route path='/' element={<ClassRoom/>}/>
+        {userData!==null && userData.role==="FACULTY" && <Route path='/' element={<ClassRoom/>}/>}
         <Route path='/tasks' element={<Tasks/>}/>
         <Route path='/quizes' element={<Quiz/>}/>
         <Route path='/tests' element={<Tests/>}/>

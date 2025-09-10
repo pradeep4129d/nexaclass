@@ -39,11 +39,11 @@ export const Header = () => {
                     <input type="radio" name="tab" id="tab1" className="tab tab--1" />
                     <label className="tab_label" htmlFor="tab1">Class Rooms</label>
                     <input type="radio" name="tab" id="tab2" className="tab tab--2" />
-                    <label className="tab_label" for="tab2">Quizes</label>
+                    <label className="tab_label" htmlFor="tab2">Quizes</label>
                     <input type="radio" name="tab" id="tab3" className="tab tab--3" />
-                    <label className="tab_label" for="tab3">Tasks</label>
+                    <label className="tab_label" htmlFor="tab3">Tasks</label>
                     <input type="radio" name="tab" id="tab4" className="tab tab--4" />
-                    <label className="tab_label" for="tab4">Tests </label>
+                    <label className="tab_label" htmlFor="tab4">Tests </label>
                     <div style={{color:"crimson"}} onClick={()=>{sessionStorage.removeItem("token");setLogin(false)}} className="menu-list">logout</div>
 
                     <div className="indicator"></div>

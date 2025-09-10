@@ -7,7 +7,187 @@
 .scroll-reveal {
   margin: 20px 0;
 }
-/* From Uiverse.io by Nawsome */ 
+.popup {
+  position: relative;
+  width: 320px;
+  height: fit-content;
+  background: #2d3250;
+  box-shadow: 0px 187px 75px rgba(0, 0, 0, 0.01), 0px 105px 63px rgba(0, 0, 0, 0.05), 0px 47px 47px rgba(0, 0, 0, 0.09), 0px 12px 26px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 13px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+  gap: 10px;
+}
+.cancel-form{
+  position:absolute;
+  right:15px;
+  top:5px;
+  color:crimson;
+  cursor: pointer;
+}
+#cb{
+  width: 100%;
+  margin-top: -1px;
+}
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: #424769;
+  box-shadow: 0px 0.5px 0.5px #676f9d, 0px 1px 0.5px rgba(239, 239, 239, 0.5);
+  border-radius: 5px;
+}
+.icon>ion-icon{
+  color: #f9b17f;
+  font-size: 34px;
+}
+.note {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 24px;
+  color: #ffff;
+}
+
+.subtitle {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 18px;
+  color: #aaa;
+}
+
+.input_field {
+  width: 95%;
+  height: 42px;
+  padding: 0 0 0 12px;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid #676f9d;
+  background:#424769;
+  color:#fff;
+  transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
+}
+
+.form button.submit {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 18px;
+  gap: 10px;
+  width: 100%;
+  height: 42px;
+  background: #f9b17a;
+  border-radius: 5px;
+  border: 0;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 15px;
+  color: #ffffff;
+}
+    
+.main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1em;
+  color: #aaa;
+  height: 150px;
+  width: 300px;
+}
+
+.main-container:hover {
+  .text {
+    color: #f9b17a;
+  }
+}
+
+.tooltip-container {
+  --background: #f9b17a;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  transition: all 0.2s;
+  padding: 0 0.2em;
+  border: 1px solid transparent;
+}
+
+.tooltip {
+  position: absolute;
+  top: 20px;
+  left: 32%;
+  transform: translateX(-50%);
+  padding: 0.3em 0.6em;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s;
+  color: #fff;
+  background: var(--background);
+}
+
+.tooltip::before {
+  position: absolute;
+  content: "";
+  height: 0.6em;
+  width: 0.6em;
+  bottom: -0.2em;
+  left: 50%;
+  transform: translate(-20%) rotate(45deg);
+  background: var(--background);
+}
+
+.tooltip-container:hover .tooltip {
+  top: -70%;
+  border-radius: 0.25em;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.text {
+  margin-right: 4px;
+  margin-top: 15px;
+  height: fit-content;
+  animation: 1s bounce infinite;
+  border-bottom: 2px solid var(--background);
+}
+
+.text:hover {
+  animation: none;
+}
+
+@keyframes bounce {
+  50% {
+    color: #cda8d6;
+  }
+  75% {
+    scale: 0.98;
+    transform: rotate(1deg);
+  }
+  100% {
+    scale: 1.01;
+  }
+}
 .loader {
   --background: linear-gradient(135deg, #fdc79d, #fb9343);
   --shadow: rgba(0,0,0);
@@ -18,8 +198,8 @@
   width: 100px;
   height: 70px;
   position: relative;
+  
 }
-
 .loader:before, .loader:after {
   --r: -6deg;
   content: "";
@@ -392,7 +572,7 @@ body {
   display: flex;
   align-items: center;
   justify-content:space-between;
-  z-index: 1000;
+  z-index: 100000;
 }
 .auth{
   color: #f9b17a;
@@ -606,7 +786,7 @@ body{
   height: 100vh;
   background-color: transparent;
   backdrop-filter: blur(15px);
-  z-index: 999;
+  z-index: 10000;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -645,4 +825,7 @@ body{
 .message.transist{
   top: 0;
  
+}
+.CRForm{
+  
 }

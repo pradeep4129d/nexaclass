@@ -27,7 +27,6 @@ const Register = () => {
         setUserDetails({...userDetails,[e.target.id]:e.target.value})
     }
     const handleSubmit=async(e)=>{
-        console.log(userDetails)
         e.preventDefault();
         if(cp!==userDetails.password){
             setMessage({color:"crimson",message:"password mismatch"})
@@ -133,7 +132,7 @@ const Register = () => {
         {verify?<>
             <div className="details">
                 <form onSubmit={handleSubmit}>
-                    <input type="radio" name="student" id="role" value={"STUDENT"} onChange={handlechange} checked={userDetails.role==="STUDENT"} required={userDetails.role===""}/>Student 
+                    <input className='input_field' type="radio" name="student" id="role" value={"STUDENT"} onChange={handlechange} checked={userDetails.role==="STUDENT"} required={userDetails.role===""}/>Student 
                     <input type="radio" name='faculty' id='role' value={"FACULTY"} onChange={handlechange} checked={userDetails.role==="FACULTY"} required={userDetails.role===""}/>Faculty
                     {userDetails.role==="STUDENT" && <>
                         <input type="text" id='section' placeholder='Section' onChange={handlechange} required/>
@@ -145,7 +144,7 @@ const Register = () => {
                             <option value="EEE">EEE</option>
                             <option value="MECH">MECH</option>
                         </select>
-                        <input type="number" name="year" id="semester" placeholder='semester' onChange={handlechange} required/>
+                        <input type="number" name="semester" id="semester" placeholder='semester' onChange={handlechange} required/>
                     </>}
                     <input type="password" name="password" id="password"  placeholder='password' onChange={handlechange} required/>
                     <input type="password" name="cpassword" id="cp" placeholder='conform password' onChange={(e)=>{setCp(e.target.value)}} required/><br/>

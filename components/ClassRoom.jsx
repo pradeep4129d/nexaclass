@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import useStore from '../store/store';
 import Loading from './Loading';
+import AnimatedList from './AnimatedList';
 
 export const ClassRoom = () => {
   const {isLoading,setIsLoading,setMessage,userData}=useStore();
@@ -16,7 +17,7 @@ export const ClassRoom = () => {
     });
   useEffect(()=>{
     const token=sessionStorage.getItem("token");
-    if(token!==null){
+    if(token!==null && classRoom===null){
       setIsLoading(true);
       const fetchData=async()=>{
         const res = await fetch("http://localhost:3000/faculty/classroom", {
@@ -81,6 +82,7 @@ export const ClassRoom = () => {
   return (
     <>
     <div className='classroom-container'>
+      <button className="newcr" onClick={()=>{setDisplayForm(true)}}>New</button>
       {displayForm && <div className="CRForm">
           <div className="popup">
             <div className="cancel-form" onClick={()=>{setDisplayForm(false)}}>x</div>
@@ -90,7 +92,7 @@ export const ClassRoom = () => {
               </div>
               <div className="note">
                 <label className="title">Set up properties</label>
-                <span className="subtitle">Class Room properties cannot be updatable onces craeted.</span>
+                <span className="subtitle">Class Room properties cannot be updatable onces created.</span>
               </div>
               <input required onChange={handlechange} placeholder="Class room name"  name="name" type="text" className="input_field"/>
               <input  onChange={handlechange} placeholder="description"  name="description" type="textbox" className="input_field"/>
@@ -121,7 +123,13 @@ export const ClassRoom = () => {
           </div>
         </>:
         <>
-
+          <AnimatedList
+            items={classRoom}
+            onItemSelect={(item, index) => console.log(item, index)}
+            showGradients={false}
+            enableArrowNavigation={true}
+            displayScrollbar={true}
+          />
         </>
       }
     </div>

@@ -98,5 +98,12 @@
      .tab--4:checked ~ .indicator {
       left: calc(130px * 3 + 2px);
     }
+    .scroll-list-container {
+      position: fixed;
+      top: 17vh;
+      left:0px;
+      width: 100vw;
+      height: 80vh;
+    }
 
 }

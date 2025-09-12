@@ -1,5 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'motion/react';
+import useStore from '../store/store';
+import { useNavigate } from 'react-router-dom';
 
 const AnimatedItem = ({ children, delay = 0, index, onMouseEnter, onClick }) => {
     const ref = useRef(null);
@@ -39,6 +41,7 @@ const AnimatedList = ({
     'Item 15'
     ],
     onItemSelect,
+    onDeleteItem,
     showGradients = true,
     enableArrowNavigation = true,
     className = '',
@@ -47,11 +50,11 @@ const AnimatedList = ({
     initialSelectedIndex = -1
 }) => {
     const listRef = useRef(null);
+    const navigate=useNavigate()
     const [selectedIndex, setSelectedIndex] = useState(initialSelectedIndex);
     const [keyboardNav, setKeyboardNav] = useState(false);
     const [topGradientOpacity, setTopGradientOpacity] = useState(0);
     const [bottomGradientOpacity, setBottomGradientOpacity] = useState(1);
-
     const handleScroll = e => {
         const { scrollTop, scrollHeight, clientHeight } = e.target;
         setTopGradientOpacity(Math.min(scrollTop / 50, 1));
@@ -109,6 +112,7 @@ const AnimatedList = ({
         <div className={`scroll-list-container ${className}`}>
         <div ref={listRef} className={`scroll-list ${!displayScrollbar ? 'no-scrollbar' : ''}`} onScroll={handleScroll}>
             {items.map((item, index) => (
+            <div className='cr-container' id={index}>
             <AnimatedItem
                 key={index}
                 delay={0.1}
@@ -119,6 +123,7 @@ const AnimatedList = ({
                 if (onItemSelect) {
                     onItemSelect(item, index);
                 }
+                navigate("/classroom")
                 }}
             >
                 <div className={`item ${selectedIndex === index ? 'selected' : ''} ${itemClassName}`}>
@@ -131,7 +136,9 @@ const AnimatedList = ({
                     <p className="item-text">Description:{item.description}</p>
                 </div>
                 </div>
-                    <button aria-label="Delete item" class="delete-button">
+                </div>
+            </AnimatedItem>
+            <button onClick={()=>{onDeleteItem(index)}} aria-label="Delete item" class="delete-button">
                     <svg
                         class="trash-svg"
                         viewBox="0 -10 64 74"
@@ -171,9 +178,7 @@ const AnimatedList = ({
                         </g>
                     </svg>
                     </button>
-
-                </div>
-            </AnimatedItem>
+            </div>
             ))}
         </div>
         {showGradients && (

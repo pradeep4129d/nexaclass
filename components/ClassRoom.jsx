@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import useStore from '../store/store';
-import Loading from './Loading';
 import AnimatedList from './AnimatedList';
-
+import { Outlet, useNavigate } from 'react-router-dom'
 export const ClassRoom = () => {
-  const {isLoading,setIsLoading,setMessage,userData}=useStore();
+  const {setIsLoading,setMessage,userData,setCrItem}=useStore();
   const [classRoom,setClassRoom]=useState(null);
   const [displayForm,setDisplayForm]=useState(false);
+  const navigate=useNavigate();
   const [formData,setFormData]=useState({
         facultyId:userData.id,
         name:"",
@@ -15,6 +15,25 @@ export const ClassRoom = () => {
         semester:"",
         section:""
     });
+  const handleDelete=async(index)=>{
+    const token=sessionStorage.getItem("token");
+    if(token!==null){
+      setIsLoading(true);
+      const res = await fetch(`http://localhost:3000/faculty/classroom/${classRoom[index].id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          },});
+      if(res.ok){
+        const response = await res.json();
+        setMessage({ color: "green", message:"deleted successfully"});
+        setClassRoom(response);
+      } else
+      setMessage({ color: "crimson", message: res.body});
+      }
+      setIsLoading(false)
+  }
   useEffect(()=>{
     const token=sessionStorage.getItem("token");
     if(token!==null && classRoom===null){
@@ -68,6 +87,13 @@ export const ClassRoom = () => {
             if (res.ok) {
               const response = await res.json();
               setClassRoom(response);
+              setFormData({
+                facultyId:userData.id,
+                name:"",
+                description:"",
+                branch:"",
+                semester:"",
+                section:""})
               setDisplayForm(false);
               setMessage({ color: "green", message: "created successfully" });
             } else
@@ -81,6 +107,7 @@ export const ClassRoom = () => {
   }
   return (
     <>
+    <Outlet/>
     <div className='classroom-container'>
       <button className="newcr" onClick={()=>{setDisplayForm(true)}}>New</button>
       {displayForm && <div className="CRForm">
@@ -111,7 +138,7 @@ export const ClassRoom = () => {
           </div>
       </div>}
       {
-        (classRoom===null)?
+        (classRoom===null || classRoom.length===0)?
         <>
           <div className="main-container">
             <p>Oop's! No</p>
@@ -125,7 +152,8 @@ export const ClassRoom = () => {
         <>
           <AnimatedList
             items={classRoom}
-            onItemSelect={(item, index) => console.log(item, index)}
+            onItemSelect={(item, index) =>setCrItem(item)}
+            onDeleteItem={(index)=>handleDelete(index)}
             showGradients={false}
             enableArrowNavigation={true}
             displayScrollbar={true}

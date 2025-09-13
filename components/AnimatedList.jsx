@@ -123,9 +123,8 @@ const AnimatedList = ({
                 if (onItemSelect) {
                     onItemSelect(item, index);
                 }
-                navigate("/classroom")
-                }}
-            >
+                navigate("/classroom");
+                }}>
                 <div className={`item ${selectedIndex === index ? 'selected' : ''} ${itemClassName}`}>
                 <div className='crcard'>
                     <div className="icon">

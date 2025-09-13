@@ -50,13 +50,12 @@ function App() {
     <Routes>
       {login?
         <>
-        {userData!==null && userData.role==="FACULTY" && 
-        <Route path='/' element={<ClassRoom/>}>
-          <Route path='/classroom' element={<ShowCR/>}/>
-        </Route>}
+        {userData!==null && userData.role==="FACULTY" &&
+        <><Route path='/' element={<ClassRoom/>}/>
+        <Route path='/classroom' element={<ShowCR/>}/>
         <Route path='/tasks' element={<Tasks/>}/>
         <Route path='/quizes' element={<Quiz/>}/>
-        <Route path='/tests' element={<Tests/>}/>
+        <Route path='/tests' element={<Tests/>}/></>}
         </>:
         <>
           <Route path='/login' element={<Login/>}/>

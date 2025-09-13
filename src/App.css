@@ -105,5 +105,26 @@
       width: 100vw;
       height: 80vh;
     }
-
+    .showcr{
+      display: grid;
+      
+    }
+    .scon{
+      display:flex;
+      width: 98vw;
+      justify-content: center;
+      align-items: center;
+    }
+    .group{
+      width: 70vw;
+    }
+    .scon>.container{
+      padding: 10px;
+    }
+    .session-container{
+      max-height: 100px;
+    }
+    .propdetails.props{
+      min-height: 155px;
+    }
 }

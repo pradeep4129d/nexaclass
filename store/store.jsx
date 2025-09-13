@@ -8,6 +8,8 @@ const [message, setMessage] = useState({color:'',message:''});
 const [refresh, setRefresh] = useState(false);
 const [isLoading,setIsLoading]=useState(false);
 const [crItem,setCrItem]=useState(null);
+const [sItem,setSItem]=useState(null);
+
     return (
         <ContextProvider.Provider value={{
         login,
@@ -21,7 +23,9 @@ const [crItem,setCrItem]=useState(null);
         isLoading,
         setIsLoading,
         crItem,
-        setCrItem
+        setCrItem,
+        sItem,
+        setSItem
         }}>{children}</ContextProvider.Provider>
     );
 };

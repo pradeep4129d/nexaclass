@@ -137,7 +137,7 @@ const AnimatedList = ({
                 </div>
                 </div>
             </AnimatedItem>
-            <button onClick={()=>{onDeleteItem(index)}} aria-label="Delete item" class="delete-button">
+            <button onClick={()=>{onDeleteItem(index)}} aria-label="Delete item" className="delete-button">
                     <svg
                         class="trash-svg"
                         viewBox="0 -10 64 74"

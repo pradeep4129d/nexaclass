@@ -127,4 +127,32 @@
     .propdetails.props{
       min-height: 155px;
     }
+    .quiz-container{
+      position: absolute;
+      top: 16vh;
+      left: 5px;
+      width: 98vw;
+      height: 95vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .quiz-container>.item{
+      width: 95%;
+      margin-top: 5px;
+    }
+    .quiz-item{
+      left: 10px;
+    }
+    .quiz-header{
+      display: flex;
+      margin-left: 10px;
+      justify-content: space-between;
+      align-items: center;
+      width:10%;
+    }
+    .q-header>.newcr{
+      position: relative;
+      margin-top: -155px;
+      margin-right: 20px;
+    }
 }

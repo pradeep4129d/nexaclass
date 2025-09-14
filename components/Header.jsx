@@ -4,6 +4,7 @@ import {useNavigate,Link} from 'react-router-dom'
 import useStore from '../store/store'
 export const Header = () => {
     const {login,userData,setLogin}=useStore();
+    const navigate=useNavigate()
     return (
         <div className='header'>
             <div className="logo">
@@ -28,7 +29,7 @@ export const Header = () => {
                         <div className="menu-list"><Link to="/">Class Rooms</Link></div>
                         <div className="menu-list"><Link to="/quizes">Quizes</Link></div>
                         <div className="menu-list"><Link to="/tasks">Tasks</Link></div>
-                        <div className="menu-list"><Link to="/tests">Tests</Link></div>
+                        <div className="menu-list"><Link to="/tests">Tests Reports</Link></div>
                         </>:<>
                         </>
                         }
@@ -36,14 +37,14 @@ export const Header = () => {
                     </section>
                 </label>
                 <div className="tab-container">
-                    <input type="radio" name="tab" id="tab1" className="tab tab--1" />
+                    <input type="radio" name="tab" id="tab1" className="tab tab--1"  onClick={()=>{navigate("/")}}/>
                     <label className="tab_label" htmlFor="tab1">Class Rooms</label>
-                    <input type="radio" name="tab" id="tab2" className="tab tab--2" />
+                    <input type="radio" name="tab" id="tab2" className="tab tab--2" onClick={()=>{navigate("/quizes")}}/>
                     <label className="tab_label" htmlFor="tab2">Quizes</label>
-                    <input type="radio" name="tab" id="tab3" className="tab tab--3" />
+                    <input type="radio" name="tab" id="tab3" className="tab tab--3"  onClick={()=>{navigate("/tasks")}}/>
                     <label className="tab_label" htmlFor="tab3">Tasks</label>
-                    <input type="radio" name="tab" id="tab4" className="tab tab--4" />
-                    <label className="tab_label" htmlFor="tab4">Tests </label>
+                    <input type="radio" name="tab" id="tab4" className="tab tab--4" onClick={()=>{navigate("/tests")}} />
+                    <label className="tab_label" htmlFor="tab4">Tests</label>
                     <div style={{color:"crimson"}} onClick={()=>{sessionStorage.removeItem("token");setLogin(false)}} className="menu-list">logout</div>
 
                     <div className="indicator"></div>

@@ -9,23 +9,17 @@ const [refresh, setRefresh] = useState(false);
 const [isLoading,setIsLoading]=useState(false);
 const [crItem,setCrItem]=useState(null);
 const [sItem,setSItem]=useState(null);
-
+const [quizItem,setQuizItem]=useState(null)
     return (
         <ContextProvider.Provider value={{
-        login,
-        setLogin,
-        userData,
-        setUserData,
-        message,
-        setMessage,
-        refresh,
-        setRefresh,
-        isLoading,
-        setIsLoading,
-        crItem,
-        setCrItem,
-        sItem,
-        setSItem
+        login,setLogin,
+        userData,setUserData,
+        message,setMessage,
+        refresh,setRefresh,
+        isLoading,setIsLoading,
+        crItem,setCrItem,
+        sItem,setSItem,
+        quizItem,setQuizItem,
         }}>{children}</ContextProvider.Provider>
     );
 };

@@ -11,6 +11,7 @@ import { Quiz } from '../components/Quiz';
 import { Tests } from '../components/Tests';
 import { ClassRoom } from '../components/ClassRoom';
 import { ShowCR } from '../components/ShowCR';
+import { ShowQuiz } from '../components/ShowQuiz';
 
 function App() {
   const {login,isLoading,setLogin,setIsLoading,userData,setUserData,message,refresh}=useStore();
@@ -55,7 +56,9 @@ function App() {
         <Route path='/classroom' element={<ShowCR/>}/>
         <Route path='/tasks' element={<Tasks/>}/>
         <Route path='/quizes' element={<Quiz/>}/>
-        <Route path='/tests' element={<Tests/>}/></>}
+        <Route path='/tests' element={<Tests/>}/>
+        <Route path='/quiz' element={<ShowQuiz/>}/>
+        </>}
         </>:
         <>
           <Route path='/login' element={<Login/>}/>

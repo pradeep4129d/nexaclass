@@ -52,7 +52,6 @@
   scrollbar-width: none;
 }
 
-
 .item {
   padding: 16px;
   background-color: #22263e;
@@ -1091,3 +1090,131 @@ label{
 .scon{
   width: 100%;
 }
+.quiz-container{
+  position: absolute;
+  top: 16vh;
+  left: 5px;
+  width: 96vw;
+  height: 95vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.quiz-container>.item{
+  width: 92%;
+  margin-top: 5px;
+}
+.Btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100px;
+  height: 40px;
+  border: none;
+  padding: 0px 20px;
+  background-color: #f9b17a;
+  color: black;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 5px 5px 0px black;
+  transition-duration: 0.3s;
+}
+
+.svg {
+  width: 13px;
+  position: absolute;
+  right: 0;
+  margin-right: 20px;
+  fill: black;
+  transition-duration: 0.3s;
+}
+
+.Btn:hover {
+  color: transparent;
+}
+
+.Btn:hover svg {
+  right: 43%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  transition-duration: 0.3s;
+}
+
+.Btn:active {
+  transform: translate(3px, 3px);
+  transition-duration: 0.3s;
+  box-shadow: 2px 2px 0px white;
+}
+.quiz-container{
+  display: flex;
+  justify-content: start;
+}
+.quiz-item{
+  position: absolute;
+  top: 11vh;
+  left: 5px;
+  width: 97vw;
+  height: 95vh;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  flex-direction: column;
+}
+.quiz-header{
+  display: flex;
+  margin-left: 10px;
+  justify-content: space-between;
+  align-items: center;
+  width:40%;
+}
+.quiz-info{
+  text-align: start;
+}
+.description{
+  color: #aaa;
+  margin-top: -15px;
+}
+.props>button{
+  background: transparent;
+  border: none;
+  color:white;
+  text-decoration: underline;
+  font-style: italic;
+}
+hr {
+  background: transparent;
+  border-top: 1px solid #646464;
+  width: 100%;
+}
+.questions{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #aaa;
+  border-radius: 15px;
+  overflow: hidden;
+  min-height: 200px;
+}
+.q-header>.newcr{
+  position: relative;
+  margin-top: -170px;
+  margin-right: 5px;
+}
+.q-header{
+  width: 100%;
+  height: max-content;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #353954;
+  padding-left: 10px;
+  border-bottom: 1px solid #aaa;
+}
+.oops{
+    color: #aaa;
+}
+

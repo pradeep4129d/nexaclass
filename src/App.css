@@ -155,4 +155,13 @@
       margin-top: -155px;
       margin-right: 20px;
     }
+    .q-options{
+      width: 35%;
+    }
+    .question-container{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
 }

@@ -1194,6 +1194,7 @@ hr {
   width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
   border: 1px solid #aaa;
   border-radius: 15px;
   overflow: hidden;
@@ -1217,4 +1218,154 @@ hr {
 .oops{
     color: #aaa;
 }
+.question-form{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15px;
+}
+.question-form>input{
+  background-color: transparent;
+  width: 95%;
+  border-bottom: 1px solid #aaa;
+  height: 30px;
+  font-size: 16px;
+  color: #fff;
+}
+.checkbox {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+.checkbox input {
+  cursor: none;
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  height: 0;
+  width: 0;
+}
 
+.checkmark {
+  --sizer: var(--toast-success-sz, 30px);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  z-index: 1;
+  border-radius: 999px;
+}
+.checkmark,
+.checkmark path {
+  transition:
+    all 0.5s linear 0s,
+    stroke 0.15s,
+    fill 0.15s;
+}
+
+.checkbox input:checked ~ .checkmark {
+  fill: hsl(108, 62%, 55%);
+  stroke: hsl(0, 0%, 100%);
+}
+.checkbox input:checked ~ .checkmark path {
+  animation: checked_success 0.8s linear 0s both;
+  stroke-dashoffset: 162.6;
+  stroke-dasharray: 0 162.6 28 134.6;
+}
+
+.checkbox input:where(:not(:checked)) ~ .checkmark {
+  fill: hsl(0, 0%, 100%);
+  stroke: hsl(0, 62%, 55%);
+}
+.checkbox input:where(:not(:checked)) ~ .checkmark path {
+  stroke-dashoffset: 162.6;
+  stroke-dasharray: 0 200 158 134.6;
+}
+
+.sizer {
+  width: var(--sizer);
+  min-width: var(--sizer);
+  max-width: var(--sizer);
+  height: var(--sizer);
+  min-height: var(--sizer);
+  max-height: var(--sizer);
+}
+
+.option{
+  width: 96%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.option>input{
+  width: 60%;
+  margin-top: 10px;
+  height: 30px;
+  font-size: 16px;
+  color: #fff;
+  border-bottom: 1px solid #aaa;
+  background-color: transparent;
+}
+.add-option{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 10px;
+  gap: 10px;
+  height: 32px;
+  background: #424769;
+  border-radius: 5px;
+  border: 0;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 15px;
+  color: #fff;
+  width: 200px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.questions{
+  overflow-y:scroll;
+}
+.question-container{
+  width: 95%;
+  border: 1px solid #424769;
+  border-radius: 10px;
+  height: max-content;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px 5px;
+}
+.q-des{
+  font-size: 17px;
+  width: 100%;
+  text-align: start;
+  padding-left: 10px;
+}
+.q-options{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: 35px;
+  border-radius: 10px;
+  text-align: center;
+  padding-top: 5px;
+}
+.q-options.correct{
+  border: 1px solid green;
+}
+.q-options.wrong{
+  border: 1px solid crimson;
+}
+.q-des{
+  display: flex;
+  justify-content: space-between;
+}

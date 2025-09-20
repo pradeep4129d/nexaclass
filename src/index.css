@@ -1052,10 +1052,7 @@ button{
   font-weight: 500;
   margin-right: 0.2rem;
 }
-.container .box:hover {
-  box-shadow: 0px 0px 20px 1px #ffbb763f;
-  border: 1px solid rgba(255, 255, 255, 0.454);
-}
+
 .text.session{
   margin-right: 4px;
   margin-top: 8px;
@@ -1169,10 +1166,12 @@ label{
   margin-left: 10px;
   justify-content: space-between;
   align-items: center;
-  width:40%;
+  width: max-content;
 }
 .quiz-info{
+  margin-left: 10px;
   text-align: start;
+  width:max-content;
 }
 .description{
   color: #aaa;
@@ -1225,11 +1224,12 @@ hr {
   align-items: center;
   margin-top: 15px;
 }
-.question-form>input{
+.question-form>textarea{
   background-color: transparent;
   width: 95%;
+  border: none;
   border-bottom: 1px solid #aaa;
-  height: 30px;
+  min-height: 30px;
   font-size: 16px;
   color: #fff;
 }
@@ -1368,4 +1368,54 @@ hr {
 .q-des{
   display: flex;
   justify-content: space-between;
+}
+.show-prop{
+  position: fixed;
+  border: 1px solid #fff;
+  width: 250px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  border-radius: 10px;
+  background: #424769;
+  padding-bottom: 15px;
+}
+.prop-container>p{
+  margin-top: -6px;
+}
+.prop-container>p>input{
+  width: 30px;
+  background-color: transparent;
+  color: #fff;
+  border: none;
+}
+.prop-container>p>textarea{
+  background-color: transparent;
+  color: #fff;
+}
+.prop-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.show-prop>.edit{
+  background-color: #f9b17a;
+  border: none;
+  color: black;
+  padding: 6px 15px;
+  border-radius: 10px;
+}
+.tasks{
+  position: absolute;
+  top: 16vh;
+  left: 5px;
+  width: 96vw;
+  height: 95vh;
+}
+.newcr{
+  position: fixed;
+}
+.show-prop{
+  z-index: 100;
 }

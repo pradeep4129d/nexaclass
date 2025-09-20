@@ -10,6 +10,7 @@ const [isLoading,setIsLoading]=useState(false);
 const [crItem,setCrItem]=useState(null);
 const [sItem,setSItem]=useState(null);
 const [quizItem,setQuizItem]=useState(null)
+const [taskItem,setTaskItem]=useState(null);
     return (
         <ContextProvider.Provider value={{
         login,setLogin,
@@ -20,6 +21,7 @@ const [quizItem,setQuizItem]=useState(null)
         crItem,setCrItem,
         sItem,setSItem,
         quizItem,setQuizItem,
+        taskItem,setTaskItem,
         }}>{children}</ContextProvider.Provider>
     );
 };

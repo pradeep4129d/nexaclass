@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import useStore from '../store/store'
 
 export const ShowQuiz = () => {
-    const {quizItem,setIsLoading,setMessage}=useStore()
+    const {quizItem,setIsLoading,setMessage,setQuizItem}=useStore()
     const [questions,setQuestions]=useState([]);
+    const [showProps,setShowProps]=useState(false);
     const [question,setQuestion]=useState({
         quizId:quizItem.id,
         taskId:-1,
@@ -84,9 +85,51 @@ export const ShowQuiz = () => {
             }
         }
     }
+    const handleChange=(e)=>{
+        setQuizItem({...quizItem,[e.target.name]:e.target.value})
+    }
+    const handleUpdate=async()=>{
+        setIsLoading(true);
+        try {
+        const token = sessionStorage.getItem("token");
+        const res = await fetch("http://localhost:3000/faculty/quiz", {
+            method: "PUT",
+            headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(quizItem),
+        });
+        if (res.ok) {
+            const response = await res.json();
+            console.log(response);
+            setMessage({ color: "green", message: response.body });
+        } else
+            setMessage({ color: "crimson", message: "error creating" });
+        } catch (error) {
+        setMessage({ color: "crimson", message: "network error" });
+        } finally {
+        setIsLoading(false);
+        }
+    }
     const [displayForm,setDisplayForm]=useState(false)
+    console.log(quizItem)
 return (
     <div className='quiz-item'>
+        {showProps && <div className="show-prop">
+                            <div className="cancel-form" onClick={()=>{setShowProps(false)}}>x</div>
+                            <div className="prop-header">
+                                <h3>Properties</h3>
+                            </div>
+                            <div className="prop-container">
+                                <p>Title: <br /> <textarea  onChange={handleChange} name='title' type="text" value={quizItem.title}/></p>
+                                <p>Description: <br /> <textarea onChange={handleChange} name='description' type="text" value={quizItem.description}/></p>
+                                <p>Marks for Correct: <input onChange={handleChange} type="text" name='marksForCorrect' value={quizItem.marksForCorrect}/></p>
+                                <p>Negative Marks: <input onChange={handleChange} type="text" name='negativeMarks' value={quizItem.negativeMarks}/></p>
+                                <p>passing Marks: <input onChange={handleChange} type="text" name='passingMarks' value={quizItem.passingMarks}/></p>
+                            </div>
+                            <button onClick={handleUpdate} className='edit'>Edit</button>
+                        </div>}
         <div className="quiz-header">
             <div className="icon">
                 <ion-icon name="newspaper-outline"></ion-icon>
@@ -96,7 +139,7 @@ return (
                 <p className='description'>{quizItem.description}</p>
             </div>
         </div>
-        <div className="props">
+        <div className="props" onClick={()=>{setShowProps(true)}}>
             <button>Show Properties</button>
         </div>
         <hr />
@@ -110,7 +153,7 @@ return (
             {displayForm && <>
                 <form className='question-form' onSubmit={(e)=>{e.preventDefault()}}>
                 <div className="question-form">
-                    <input placeholder='Enter your question..' type="text" name="description" id="" required  onChange={(e)=>{setQuestion({...question,description:e.target.value})}}/>
+                    <textarea placeholder='Enter your question..' type="text" name="description" id="" required  onChange={(e)=>{setQuestion({...question,description:e.target.value})}}/>
                     {
                         question.options.length>0 && question.options.map((option,index)=>(
                             <div className="option">
@@ -183,10 +226,7 @@ return (
                                                         {
                                                         questionId: -1,
                                                         description: "",
-                                                        },
-                                                    ],
-                                                    });
-                                                }} className='add-option'>Add Option</button>
+                                                        },],})}} className='add-option'>Add Option</button>
                 </form>
             </>}
             {

@@ -44,7 +44,7 @@ export const Header = () => {
                     <input type="radio" name="tab" id="tab3" className="tab tab--3"  onClick={()=>{navigate("/tasks")}}/>
                     <label className="tab_label" htmlFor="tab3">Tasks</label>
                     <input type="radio" name="tab" id="tab4" className="tab tab--4" onClick={()=>{navigate("/tests")}} />
-                    <label className="tab_label" htmlFor="tab4">Tests</label>
+                    <label className="tab_label" htmlFor="tab4">Test Reports</label>
                     <div style={{color:"crimson"}} onClick={()=>{sessionStorage.removeItem("token");setLogin(false)}} className="menu-list">logout</div>
 
                     <div className="indicator"></div>

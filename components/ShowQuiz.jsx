@@ -113,7 +113,6 @@ export const ShowQuiz = () => {
         }
     }
     const [displayForm,setDisplayForm]=useState(false)
-    console.log(quizItem)
 return (
     <div className='quiz-item'>
         {showProps && <div className="show-prop">

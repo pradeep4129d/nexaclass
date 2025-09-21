@@ -139,11 +139,12 @@
     .tasks{
       position: absolute;
       top: 16vh;
-      left: 5px;
+      left: 15px;
       width: 98vw;
-      height: 95vh;
+      height: 80vh;
       display: flex;
       flex-direction: column;
+      justify-content: start;
     }
     .quiz-container>.item{
       width: 95%;
@@ -172,5 +173,8 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+    }
+    .item{
+      width: 97%;
     }
 }

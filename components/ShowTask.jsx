@@ -1,22 +1,112 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useStore from '../store/store'
 
 export const ShowTask = () => {
-    const {taskItem,setTaskItem}=useStore();
+    const {taskItem,setTaskItem,setMessage,setIsLoading}=useStore();
     const [showProps,setShowProps]=useState(false)
     const [questions,setQuestions]=useState([])
+    const [question,setQuestion]=useState({
+        quizId:-1,
+        taskId:taskItem.id,
+        description:"",
+        answer:""
+    });
+    console.log(taskItem)
+    useEffect(()=>{
+        const token=sessionStorage.getItem("token");
+        if(token!==null){
+        setIsLoading(true);
+        const fetchData=async()=>{
+            const res = await fetch(`http://localhost:3000/faculty/question/${taskItem.id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+                },
+                });
+                if (res.ok) {
+                const response = await res.json();
+                console.log(response);
+                setQuestions(response);
+                } else
+                setMessage({ color: "crimson", message: "Network error" });
+        }
+        fetchData();
+        setIsLoading(false)
+        }
+    },[])
     const [displayForm,setDisplayForm]=useState(false)
-    const handleDelete=async()=>{
-
+    const handleDelete=async(id)=>{
+        const token=sessionStorage.getItem("token");
+        if(token!==null){
+            setIsLoading(true);
+            const res = await fetch(`http://localhost:3000/faculty/question/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+                },
+                });
+                if (res.ok) {
+                const response = await res.json();
+                setQuestions(response);
+                } else
+                setMessage({ color: "crimson", message: "Network error" });
+            setIsLoading(false)
+        }
     }
     const handleChange=(e)=>{
-        setTaskItem({...setTaskItem,[e.target.name]:e.target.value})
+        setTaskItem({...taskItem,[e.target.name]:e.target.value})
     }
     const handleSubmit=async()=>{
-
+        if((question.answer.length===0 && !taskItem.eval) || question.description.length===0 ){
+            setMessage({color:"green", message:"please provide answer"})
+        }else{
+            const token=sessionStorage.getItem("token");
+            if(token!==null){
+                setIsLoading(true);
+                const res = await fetch("http://localhost:3000/faculty/question", {
+                    method: "POST",
+                    headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(question),
+                });
+                if (res.ok) {
+                const response = await res.json();
+                setQuestions(response);
+                setMessage({color: "green", message: "created successfully"})
+                } else
+                setMessage({ color: "crimson", message: "Network error" });
+                setIsLoading(false)
+                setDisplayForm(false)
+            }
+        }
     }
     const handleUpdate=async()=>{
-
+        setIsLoading(true);
+        try {
+        const token = sessionStorage.getItem("token");
+        const res = await fetch("http://localhost:3000/faculty/task", {
+            method: "PUT",
+            headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(taskItem),
+        });
+        if (res.ok) {
+            const response = await res.json();
+            console.log(response);
+            setMessage({ color: "green", message: response.body });
+        } else
+            setMessage({ color: "crimson", message: "error creating" });
+        } catch (error) {
+        setMessage({ color: "crimson", message: "network error" });
+        } finally {
+        setIsLoading(false);
+        }
     }
 return (
     <div className='quiz-item'>
@@ -28,7 +118,7 @@ return (
                             <div className="prop-container">
                                 <p>Title: <br /> <textarea  onChange={handleChange} name='title' type="text" value={taskItem.title}/></p>
                                 <p>Description: <br /> <textarea onChange={handleChange} name='description' type="text" value={taskItem.description}/></p>
-                                <p>Marks: <input onChange={handleChange} type="text" name='marksForCorrect' value={taskItem.marks}/></p>
+                                <p>Marks: <input onChange={handleChange} type="number" name='marks' value={taskItem.marks}/></p>
                             </div>
                             <button onClick={handleUpdate} className='edit'>Edit</button>
                         </div>}
@@ -55,7 +145,10 @@ return (
             {displayForm && <>
                 <form className='question-form' onSubmit={(e)=>{e.preventDefault()}}>
                 <div className="question-form">
-                    <textarea placeholder='Enter your question..' type="text" name="description" id="" required  onChange={(e)=>{setQuestion({...question,description:e.target.value})}}/>
+                    <textarea autoFocus placeholder='Enter your question..' type="text" name="description" id="taskQ" required  onChange={(e)=>{setQuestion({...question,description:e.target.value})}}/>
+                    {
+                        !taskItem.eval && <textarea placeholder='Enter your answer/test cases...'  type="text" name="answer" id="taskQ" required  onChange={(e)=>{setQuestion({...question,answer:e.target.value})}}/>
+                    }
                 </div>
                 </form>
             </>}
@@ -66,8 +159,11 @@ return (
                 questions.map((q,index)=>(
                     <div key={index} className="question-container">
                         <div className="q-des">
-                            <p>{q.description}?</p>
-                            <button onClick={()=>{handleDelete(index)}} aria-label="Delete item" className="delete-button">
+                            <div className="q-des-con">
+                                <p>{q.description}?</p>
+                                <p>{q.answer}</p>
+                            </div>
+                            <button onClick={()=>{handleDelete(q.id)}} aria-label="Delete item" className="delete-button">
                                                 <svg
                                                     class="trash-svg"
                                                     viewBox="0 -10 64 74"
@@ -108,13 +204,6 @@ return (
                                                 </svg>
                             </button>
                         </div>
-                        {
-                            q.options.map((option,index)=>(
-                                <div className={`q-options ${q.answer==index?"correct":"wrong"}`}>
-                                    {option.description}
-                                </div>
-                            ))
-                        }
                     </div>
                 ))
             }

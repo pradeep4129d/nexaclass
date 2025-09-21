@@ -1098,9 +1098,28 @@ label{
   align-items: center;
   flex-direction: column;
 }
+.tasks{
+  position: absolute;
+  top: 10vh;
+  left: 5px;
+  width: 96vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 .quiz-container>.item{
   width: 92%;
   margin-top: 5px;
+}
+#eval{
+  width: 15px;
+  display: inline;
+}
+.eval-con{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .Btn {
   position: relative;
@@ -1392,6 +1411,7 @@ hr {
 .prop-container>p>textarea{
   background-color: transparent;
   color: #fff;
+  border-radius: 5px;
 }
 .prop-container{
   display: flex;
@@ -1404,18 +1424,28 @@ hr {
   border: none;
   color: black;
   padding: 6px 15px;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 .tasks{
   position: absolute;
   top: 16vh;
   left: 5px;
   width: 96vw;
-  height: 95vh;
 }
 .newcr{
   position: fixed;
 }
 .show-prop{
   z-index: 100;
+}
+.item{
+  width: 92%;
+}
+.CRForm{
+  position: fixed;
+  top: 50%;
+}
+#taskQ{
+  min-height: 70px;
+  margin-top: 10px;
 }

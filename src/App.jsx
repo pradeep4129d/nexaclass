@@ -13,6 +13,8 @@ import { ClassRoom } from '../components/ClassRoom';
 import { ShowCR } from '../components/ShowCR';
 import { ShowQuiz } from '../components/ShowQuiz';
 import { ShowTask } from '../components/ShowTask';
+import { Session } from '../components/Session';
+import { Home } from '../components/Home';
 
 function App() {
   const {login,isLoading,setLogin,setIsLoading,userData,setUserData,message,refresh}=useStore();
@@ -52,7 +54,7 @@ function App() {
     <Routes>
       {login?
         <>
-        {userData!==null && userData.role==="FACULTY" &&
+        {userData!==null && userData.role==="FACULTY" ?
         <><Route path='/' element={<ClassRoom/>}/>
         <Route path='/classroom' element={<ShowCR/>}/>
         <Route path='/tasks' element={<Tasks/>}/>
@@ -60,7 +62,11 @@ function App() {
         <Route path='/tests' element={<Tests/>}/>
         <Route path='/quiz' element={<ShowQuiz/>}/>
         <Route path='/task' element={<ShowTask/>} />
-        </>}
+        <Route path='/session' element={<Session/>} />
+        </>:<>
+          <Route path='/' element={<Home/>} />
+        </>
+        }
         </>:
         <>
           <Route path='/login' element={<Login/>}/>

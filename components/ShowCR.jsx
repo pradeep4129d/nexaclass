@@ -170,15 +170,15 @@ const handleDelete=async(index)=>{
                 </>:<>
                 <div className="sessions-container">
                   {sessions.map((session,index)=>(
-                    <div className='item' key={index} onClick={()=>{
-                      setSItem(sessions[index])
-                      navigate("/session")
-                    }}>
+                    <div className='item' key={index} >
                       <div className='crcard'>
                           <div className="icon">
                           <ion-icon name="calendar-outline"></ion-icon>
                           </div>
-                          <div className='info session'>
+                          <div className='info session' onClick={()=>{
+                      setSItem(sessions[index])
+                      navigate("/session")
+                    }}>
                               <p className="item-text title">{session.title}</p>
                               <p className="item-text">Start Time:<br/>{session.start}</p>
                               <p className="item-text">End Time:<br/>{session.end}</p>

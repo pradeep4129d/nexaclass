@@ -11,7 +11,8 @@ export const Tasks = () => {
     facultyId:userData.id,
     title:"",
     description:"",
-    marks:0
+    marks:0,
+    eval:false
   })
   useEffect(()=>{
     const token=sessionStorage.getItem("token");
@@ -65,6 +66,27 @@ export const Tasks = () => {
   const handlechange=(e)=>{
         setTaskForm({...taskForm,[e.target.name]:e.target.value})
   }
+  const handleDelete=async(id)=>{
+     const token=sessionStorage.getItem("token");
+        if(token!==null){
+            setIsLoading(true);
+            const res = await fetch(`http://localhost:3000/faculty/task/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+                },
+                });
+                if (res.ok) {
+                const response = await res.json();
+                console.log(response);
+                setTasks(response);
+                setMessage({color: "green", message: "deleted successfully"})
+                } else
+                setMessage({ color: "crimson", message: "Network error" });
+            setIsLoading(false)
+        }
+  }
   console.log(taskForm)
   return (
     <>
@@ -82,7 +104,8 @@ export const Tasks = () => {
               </div>
               <input required onChange={handlechange} placeholder="title"  name="title" type="text" className="input_field"/>
               <input required onChange={handlechange} placeholder="description"  name="description" type="text" className="input_field"/>
-              <input required onChange={handlechange} placeholder="marks"  name="marks" type="number" className="input_field"/>
+              <input required onChange={handlechange} placeholder="marks"  name="marks" type="number" className="input_field"/>              
+              <div className='eval-con'><label htmlFor="eval">Auto Evalute Answers:</label><input  onChange={handlechange} id='eval' name="eval" type="checkbox" value={JSON.parse(taskForm.eval)?false:true} className="input_field"/></div>
               <button className="submit" type='submit'>Create</button>
             </form>
           </div>
@@ -101,20 +124,20 @@ export const Tasks = () => {
         <>
           {
             tasks.map((task,index)=>(
-              <div className='item' key={index} onClick={()=>{
-                      setTaskItem(task)
-                      navigate('/task')
-                    }}>
+              <div className='item' key={index} >
                 <div className='crcard'>
                     <div className="icon">
                     <ion-icon name="reader-outline"></ion-icon>
                     </div>
-                    <div className='info session'>
+                    <div className='info session' onClick={()=>{
+                      setTaskItem(task)
+                      navigate('/task')
+                    }}>
                         <p className="item-text title">{task.title}</p>
                         <p className="item-text">{task.description}</p>
                     </div>
                 </div>
-            <button onClick={()=>{handleDelete(index)}} aria-label="Delete item" className="delete-button">
+            <button onClick={()=>{handleDelete(task.id)}} aria-label="Delete item" className="delete-button">
                         <svg
                             class="trash-svg"
                             viewBox="0 -10 64 74"

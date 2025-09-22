@@ -1449,3 +1449,22 @@ hr {
   min-height: 70px;
   margin-top: 10px;
 }
+.activity{
+  position: absolute;
+  top: 16vh;
+  left: 5px;
+  width: 96vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#check{
+  width: 15px;
+}
+.checks{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -10px;
+}

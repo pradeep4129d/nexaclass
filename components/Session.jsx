@@ -4,7 +4,6 @@ import useStore from '../store/store';
 export const Session = () => {
   const {userData,setIsLoading,setMessage,sItem}=useStore();
   const [displayForm,setDisplayForm]=useState(false);
-  const [displayChoose,setDisplayChoose]=useState(false);
   const [activities,setActivities]=useState([]);
   const [allActivities,setAllActivities]=useState([])
   const [activity,setActivity]=useState({
@@ -17,8 +16,32 @@ export const Session = () => {
     start:null,
     end:null
   })
-  const handleSubmit=async()=>{
-
+  const handleSubmit=async(e)=>{
+    e.preventDefault();
+        setIsLoading(true)
+        try {
+          const token = sessionStorage.getItem("token");
+          const res = await fetch("http://localhost:3000/faculty/activity", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(activity),
+          });
+          if (res.ok) {
+            const response = await res.json();
+            console.log(response)
+            setActivities(response);
+            setDisplayForm(false);
+            setMessage({ color: "green", message: "created successfully" });
+          } else
+            setMessage({ color: "crimson", message: "error creating" });
+          } catch (error) {
+            setMessage({ color: "crimson", message: "network error" });
+          } finally {
+            setIsLoading(false);
+          }
   }
   const fetchActivities=async()=>{
     const token=sessionStorage.getItem("token");
@@ -85,11 +108,11 @@ export const Session = () => {
               </select>
               <div className="checks">
                 <label htmlFor="isTest">Mark as test:</label>
-                <input required onChange={handlechange} id='check' name="isTest" type="checkbox" className="input_field"/>
+                <input  onChange={handlechange} value={JSON.parse(activity.isTest)?false:true} id='check' name="isTest" type="checkbox" className="input_field"/>
               </div>
               <div className="checks">
                 <label htmlFor="includeEditor">Include Code Editor:</label>
-                <input required onChange={handlechange} id='check' name="includeEditor" type="checkbox" className="input_field"/>
+                <input  onChange={handlechange}value={JSON.parse(activity.includeEditor)?false:true} id='check' name="includeEditor" type="checkbox" className="input_field"/>
               </div>
               <label htmlFor="start">Start Time</label>
               <input required onChange={handlechange} name="start" type="datetime-local" className="input_field"/>
@@ -105,7 +128,7 @@ export const Session = () => {
             <p>Oop's! No</p>
             <div className="tooltip-container">
               <span className="tooltip">Create</span>
-              <div className="text" onClick={()=>{setDisplayForm(true)}}>Quizes</div>
+              <div className="text" onClick={()=>{setDisplayForm(true)}}>acctivities</div>
               <p>to show!</p>
             </div>
           </div>

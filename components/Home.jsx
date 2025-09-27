@@ -3,6 +3,8 @@ import AnimatedList from './AnimatedList';
 
 export const Home = () => {
   const [classRooms,setClassRooms]=useState([]);
+  const [searchTerm,setSearchTerm]=useState("");
+  const [searchItems,setSearchItems]=useState([]);
   useEffect(()=>{
     const token=sessionStorage.getItem("token");
     if(token==null){
@@ -22,9 +24,20 @@ export const Home = () => {
     }
     fetchData();
   },[])
+  const handleSearch=(e)=>{
+    setSearchTerm(e.target.value);
+    const filteredItems=classRooms.filter((cr)=>
+      cr.name.toLowerCase().includes(e.target.value.toLowerCase()) || cr.description.toLowerCase().includes(e.target.value.toLowerCase())
+    );
+    setSearchItems(filteredItems);
+  }
   return (
     <div className='tab-con'>
-      <input type="text" className='search' placeholder='Search class room...' />
+      <div className="s-con">
+        <div></div>
+        <ion-icon name="search-outline"></ion-icon>
+        <input type="text" className='search' placeholder='Search class room...' value={searchTerm} onChange={handleSearch} /> 
+      </div>
       {
         classRooms.length===0?
         <div className="main-container">
@@ -37,7 +50,7 @@ export const Home = () => {
         :
         <div className="item-con">
           {
-            classRooms.map((cr,index)=>(
+            (searchTerm.length===0)? classRooms.map((cr,index)=>(
               <div className="con-item">
                 <div className='crcard'>
                   <div className="icon">
@@ -50,7 +63,22 @@ export const Home = () => {
                 </div>
                 <button className='join'>Join</button>
               </div>
-          ))}
+          )):
+          searchItems.map((cr,index)=>(
+            <div className="con-item">
+              <div className='crcard'>
+                <div className="icon">
+                <ion-icon name="newspaper-outline"></ion-icon>
+                </div>
+                <div className='info session'>
+                    <p className="item-text title">{cr.name}</p>
+                    <p className="item-text">{cr.description}</p>
+                </div>
+              </div>
+              <button className='join'>Join</button>
+            </div>
+          ))
+        }
         </div>
         
       }

@@ -177,4 +177,16 @@
     .item{
       width: 97%;
     }
+    .tab-con{
+      position: absolute;
+      width:98vw;
+      left: 15px;
+      top: 11vh;
+    }
+    .main-container{
+      width: 100%;
+    }
+    .search{
+      margin-left: 80%;
+    }
 }

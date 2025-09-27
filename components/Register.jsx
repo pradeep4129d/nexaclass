@@ -42,7 +42,7 @@ const Register = () => {
             "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                userName:userDetails.email.substring(0,9),
+                userName:userDetails.email.substring(0,10),
                 email:userDetails.email,
                 password:userDetails.password,
                 role:userDetails.role,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useStore from '../store/store';
 
 export const Session = () => {
@@ -6,6 +6,9 @@ export const Session = () => {
   const [displayForm,setDisplayForm]=useState(false);
   const [activities,setActivities]=useState([]);
   const [allActivities,setAllActivities]=useState([])
+  const [showProps,setShowProps]=useState(false)
+  const [index,setIndex]=useState(0);
+  const [quizName,setQuizName]=useState("")
   const [activity,setActivity]=useState({
     facultyId:userData.id,
     sessionId:sItem.id,
@@ -16,6 +19,28 @@ export const Session = () => {
     start:null,
     end:null
   })
+  useEffect(()=>{
+    const token=sessionStorage.getItem("token");
+        if(token!==null){
+        setIsLoading(true);
+        const fetchData=async()=>{
+            const res = await fetch(`http://localhost:3000/faculty/activity/${sItem.id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+                },
+                });
+                if (res.ok) {
+                const response = await res.json();
+                setActivities(response);
+                } else
+                setMessage({ color: "crimson", message: "Network error" });
+        }
+        fetchData();
+        setIsLoading(false)
+        }
+  },[])
   const handleSubmit=async(e)=>{
     e.preventDefault();
         setIsLoading(true)
@@ -78,9 +103,59 @@ export const Session = () => {
   const handlechange=(e)=>{
     setActivity({...activity,[e.target.name]:e.target.value})
   }
-  console.log(activity)
+  const handleDelete=async(id)=>{
+    setIsLoading(true)
+    try {
+      const token = sessionStorage.getItem("token");
+      const res = await fetch(`http://localhost:3000/faculty/activity/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        }
+      });
+      if (res.ok) {
+        const response = await res.json();
+        setActivities(response);
+        setMessage({ color: "green", message: "Deleted successfully" });
+      } else
+        setMessage({ color: "crimson", message: "error deleting" });
+      } catch (error) {
+        setMessage({ color: "crimson", message: "network error" });
+      } finally {
+        setIsLoading(false);
+      }
+  }
+  const fetchName=async()=>{
+      setIsLoading(true);
+      const token=sessionStorage.getItem("token");
+      const res = await fetch(`http://localhost:3000/faculty/quiz/${activities[index].activityId}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          });
+      if (res.ok) {
+        const response = await res.json();
+        setQuizName(response.title);
+      }
+      setIsLoading(false);
+    }
   return (
     <div className='activity'>
+      {
+        showProps && <div className="showprops">
+          <div className="cancel-form" onClick={()=>{setShowProps(false)}}>x</div>
+          <div className="activity-props-con">
+              <p>Selected Activity:{quizName}</p>
+              <p>is Test:{activities[index].isTest?"Yes":"No"}</p>
+              <p>include Code Editor:{activities[index].includeEditor?"Yes":"No"}</p>
+              <p >Start Time:<br/>{activities[index].start}</p>
+              <p >End Time:<br/>{activities[index].end}</p>
+          </div>
+        </div>
+      }
       <button className="newcr" onClick={()=>{setDisplayForm(true)}}>New</button>
       {displayForm && <div className="CRForm">
           <div className="popup">
@@ -123,7 +198,7 @@ export const Session = () => {
           </div>
       </div>}
       {
-        activities.length===0 && !displayForm?<>
+        activities.length===0 ?<>
           <div className="main-container">
             <p>Oop's! No</p>
             <div className="tooltip-container">
@@ -133,6 +208,64 @@ export const Session = () => {
             </div>
           </div>
         </>:<>
+          <div className="activity-con">
+              {activities.map((a,index)=>(
+                <div className='item' key={index} >
+                <div className='crcard'>
+                    <div className="icon">
+                    <ion-icon name="reader-outline"></ion-icon>
+                    </div>
+                    <div className='info session' onClick={()=>{
+
+                    }}>
+                        <p className="item-text title">Activity:{a.id}</p>
+                        <p className="item-text">Type:{a.type}</p>
+                        <a id='sp' onClick={()=>{setShowProps(true); setIndex(index); fetchName()}}>show properties</a>
+                    </div>
+                </div>
+                <button onClick={()=>{handleDelete(a.id)}} aria-label="Delete item" className="delete-button">
+                            <svg
+                                class="trash-svg"
+                                viewBox="0 -10 64 74"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <g id="trash-can">
+                                <rect
+                                    x="16"
+                                    y="24"
+                                    width="32"
+                                    height="30"
+                                    rx="3"
+                                    ry="3"
+                                    fill="#e74c3c"
+                                ></rect>
+
+                                <g transform-origin="12 18" id="lid-group">
+                                    <rect
+                                    x="12"
+                                    y="12"
+                                    width="40"
+                                    height="6"
+                                    rx="2"
+                                    ry="2"
+                                    fill="#c0392b"
+                                    ></rect>
+                                    <rect
+                                    x="26"
+                                    y="8"
+                                    width="12"
+                                    height="4"
+                                    rx="2"
+                                    ry="2"
+                                    fill="#c0392b"
+                                    ></rect>
+                                </g>
+                                </g>
+                            </svg>
+                </button>
+              </div>
+            ))}
+          </div>
         </>
       }
     </div>

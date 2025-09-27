@@ -1470,3 +1470,59 @@ hr {
   align-items: center;
   margin-top: -10px;
 }
+.activity-con{
+  width: 100%;
+}
+#sp{
+  font-size: 14px;
+  text-decoration: underline;
+  color: #aaa;
+}
+.showprops{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background: #33374d;
+  padding: 10px 15px;
+  border-radius: 10px;
+}
+.activity-props-con{
+  padding-top: 10px;
+  margin-top: 15px;
+  text-align: start;
+}
+.tab-con{
+  position: absolute;
+  width: 95vw;
+  top: 11vh;
+  left: 10px;
+}
+.item-con{
+  width: 100%;
+}
+.con-item{
+  width:100%;
+  min-height: 70px;
+  background-color: #22263e;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.join{
+  background: #f9b17a;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-right: 15px;
+}
+.search{
+  margin-left: 50%;
+  height: 30px;
+  background-color: #2d3250;
+  margin-bottom: 10px;
+  padding:5px;
+}

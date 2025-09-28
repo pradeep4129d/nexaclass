@@ -9,7 +9,6 @@ export const MyCRs = () => {
     const location=useLocation()
     const navigate=useNavigate()
     useEffect(()=>{
-        console.log("Current path:", location.pathname); 
         if(location.pathname==="/mycr/cr" || location.pathname==="/mycr/cr/session")
             setShow(true);
         else

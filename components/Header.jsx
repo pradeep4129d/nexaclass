@@ -34,7 +34,9 @@ export const Header = () => {
                             <div className="menu-list"><Link to="/">All</Link></div>
                             <div className="menu-list"><Link to="/mycr">My ClassRooms</Link></div>
                             <div className="menu-list"><Link to="/editor">Code Editor</Link></div>
+                            <div className="menu-list"><Link to="/mynotes">My Notes</Link></div>
                             <div className="menu-list"><Link to="/mytests">My Tests</Link></div>
+
                         </>
                         }
                         <div style={{ color: "crimson" }} onClick={() => { sessionStorage.removeItem("token"); setLogin(false) }} className="menu-list">logout</div>
@@ -58,8 +60,10 @@ export const Header = () => {
                             <label className="tab_label" htmlFor="tab2">My CRs</label>
                             <input type="radio" name="tab" id="tab3" className="tab tab--3" onClick={() => { navigate("/editor") }} />
                             <label className="tab_label" htmlFor="tab3">Code Editor</label>
-                            <input type="radio" name="tab" id="tab4" className="tab tab--4" onClick={() => { navigate("/mytests") }} />
-                            <label className="tab_label" htmlFor="tab4">My Tests</label>
+                            <input type="radio" name="tab" id="tab4" className="tab tab--4" onClick={() => { navigate("/mynotes") }} />
+                            <label className="tab_label" htmlFor="tab4">My Notes</label>
+                            <input type="radio" name="tab" id="tab5" className="tab tab--5" onClick={() => { navigate("/mytests") }} />
+                            <label className="tab_label" htmlFor="tab5">My Tests</label>
                         </>
                     }
                     <div style={{ color: "crimson" }} onClick={() => { sessionStorage.removeItem("token"); setLogin(false) }} className="menu-list">logout</div>

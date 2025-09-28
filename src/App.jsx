@@ -18,6 +18,7 @@ import { Home } from '../components/Home';
 import { MyCRs } from '../components/MyCRs';
 import ShowMyCR from '../components/ShowMyCR';
 import { MySession } from '../components/MySession';
+import { CodeEditor } from '../components/CodeEditor';
 
 function App() {
   const { login, isLoading, setLogin, setIsLoading, userData, setUserData, message, refresh } = useStore();
@@ -73,6 +74,7 @@ function App() {
                     <Route path="session" element={<MySession />} />
                   </Route>
                 </Route>
+                <Route path='/editor' element={<CodeEditor />} />
               </>
             }
           </> :

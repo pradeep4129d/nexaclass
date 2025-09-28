@@ -9,7 +9,6 @@ const ShowMyCR = () => {
     const [sessions, setSessions] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
-        console.log("Current path:", location.pathname);
         if (location.pathname === "/mycr/cr/session")
             setShow(true);
         else

@@ -1570,6 +1570,7 @@ hr {
 }
 .activity-con{
   width: 100%;
+  margin-left: 10px;
 }
 #sp{
   font-size: 14px;
@@ -1730,4 +1731,23 @@ hr {
 }
 .con-item.smcr.ended{
   opacity: 0.5;
+}
+.general-con{
+  width: 100%;
+}
+.general-head{
+  width:auto;
+  background-color: #454b6e;
+  height: 40px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  font-size: 18px;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+}
+.attemptbtn{
+  
 }

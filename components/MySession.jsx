@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import useStore from '../store/store';
+import { useNavigate } from 'react-router-dom';
 
 export const MySession = () => {
     const { mySessionItem } = useStore();
     const [activities, setActivities] = useState([]);
     const [timeLeft, setTimeLeft] = useState("");
-
+    const navigate=useNavigate();
+    const testActivities = activities.filter(item => item.test);
+    const generalActivities = activities.filter(item => !item.test);
     const updateCountdown = () => {
         const now = new Date();
         const start = new Date(mySessionItem.start);
@@ -68,26 +71,52 @@ export const MySession = () => {
             </div>
             <div className="mycr-sessions">
                 <h3>Activities</h3>
-                <div className="item-con">
+                <div className="item-con a">
                     {
-                    activities.length === 0 ?
-                        <div className="main-container">
-                            <p>Oop's! No</p>
-                            <div className="tooltip-container">
-                                <p> activities to show!</p>
-                            </div>
-                        </div> : 
-                    activities.map((activity, index) => (
-                        <div className={'con-item smcr '} key={index}>
-                            <div className='crcard'>
-                                <div className="icon">
-                                    <ion-icon name="calendar-outline"></ion-icon>
+                        activities.length === 0 ?
+                            <div className="main-container">
+                                <p>Oop's! No</p>
+                                <div className="tooltip-container">
+                                    <p> activities to show!</p>
                                 </div>
-                                <div className='info session'>
-                                    <p className="item-text title">{activity.type}</p>                                        
+                            </div> :
+                            <>
+                                <div className="general-con">
+                                    <div className="general-head">General Activities ({generalActivities.length})</div>
+                                    {generalActivities.map((item, index) => (
+                                        <div className={'con-item smcr '} key={index}>
+                                            <div className='crcard'>
+                                                <div className="icon">
+                                                    <ion-icon name="reader-outline"></ion-icon>
+                                                </div>
+                                                <div className='info session'>
+                                                    <p className="item-text title">{item.type === "quiz" ? item.quiz.title : item.task.title}</p>
+                                                    <p className="item-text desc">{item.type === "quiz" ? item.quiz.description : item.task.description}</p>
+                                                </div>
+                                            </div>
+                                            <button className='join' onClick={()=>{navigate("/test")}}>Attempt</button>
+                                        </div>
+                                    ))} 
                                 </div>
-                            </div>
-                        </div>))}
+                                <div className="general-con">
+                                    <div className="general-head">Tests ({testActivities.length})</div>
+                                    {testActivities.map((item, index) => (
+                                        <div className={'con-item smcr'} key={index}>
+                                            <div className='crcard'>
+                                                <div className="icon">
+                                                    <ion-icon name="newspaper-outline"></ion-icon>
+                                                </div>
+                                                <div className='info session'>
+                                                    <p className="item-text title">{item.type === "quiz" ? item.quiz.title : item.task.title}</p>
+                                                    <p className="item-text desc">{item.type === "quiz" ? item.quiz.description : item.task.description}</p>
+                                                </div>
+                                            </div>
+                                            <button className='join' onClick={()=>{navigate("/test")}}>Attempt</button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </>
+                    }
                 </div>
             </div>
         </div>

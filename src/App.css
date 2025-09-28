@@ -106,6 +106,9 @@
   .tab--4:checked~.indicator {
     left: calc(130px * 3 + 2px);
   }
+  .tab--5:checked~.indicator {
+    left: calc(130px * 4 + 2px);
+  }
 
   .scroll-list-container {
     position: fixed;

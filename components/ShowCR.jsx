@@ -52,9 +52,7 @@ const handleDelete=async(index)=>{
             const response = await res.json();
             console.log(response)
             setSessions(response);
-            setMessage({ color: "green", message: "created successfully" });
-          } else
-            setMessage({ color: "crimson", message: "error creating" });
+          }
           } catch (error) {
             setMessage({ color: "crimson", message: "network error" });
           } finally {

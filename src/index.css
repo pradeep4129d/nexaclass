@@ -73,6 +73,7 @@
   flex-direction: column;
   text-align: start;
   margin-left: 10px;
+  cursor: pointer;
 }
 .item-text {
   color: #aaa;
@@ -508,7 +509,6 @@
     transform: rotateY(0deg);
   }
 }
-/* From Uiverse.io by jerome_5148 */ 
 .event-wrapper > .event-wrapper-inp {
   display: none;
 }
@@ -941,13 +941,16 @@ body{
 }
 .message{
   position: fixed;
-  top: -100px;
+  top: -105px;
   left: 0;
   width: 100vw;
-  z-index: 1005;
+  z-index: 10050000;
   height:10vh;
   border-radius: 10px;
   font-size: 17px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   transition-property: top;
   transition-duration: 1s;
@@ -1289,6 +1292,101 @@ hr {
     fill 0.15s;
 }
 
+.notification {
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+  position: relative;
+  width:100%;
+  min-height: 6rem;
+  background: #676f9d;
+  border-radius: 1rem;
+  overflow: hidden;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 16px;
+  --gradient: linear-gradient(to bottom, #faab6f, #ffcca4, #ffe8d6);
+  --color: #32a6ff
+}
+
+.notification:before {
+  position: absolute;
+  content: "";
+  inset: 0.0625rem;
+  border-radius: 0.9375rem;
+  background: #1d2033;
+  z-index: 2;
+  display: flex;
+  align-items: start;
+  justify-content: start;
+}
+
+.notification:after {
+  position: absolute;
+  content: "";
+  width: 0.25rem;
+  inset: 0.65rem auto 0.65rem 0.5rem;
+  border-radius: 0.125rem;
+  background: var(--gradient);
+  transition: transform 300ms ease;
+  z-index: 4;
+}
+
+.notification:hover:after {
+  transform: translateX(0.15rem)
+}
+
+.notititle {
+  padding: 0.65rem 0.25rem 0.4rem 1.25rem;
+  font-weight: 500;
+  font-size: 1.5rem;
+  transition: transform 300ms ease;
+  z-index: 5;
+  width: 100%;
+  text-align: start;
+}
+.notification:hover .notititle {
+  transform: translateX(0.15rem)
+}
+.notibody {
+  color: #99999d;
+  padding: 0 1.25rem;
+  transition: transform 300ms ease;
+  z-index: 5;
+  width: 100%;
+  text-align: start;
+}
+.notification:hover .notibody {
+  transform: translateX(0.25rem)
+}
+
+.notiglow,
+.notiborderglow {
+  position: absolute;
+  width: 20rem;
+  height: 20rem;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle closest-side at center, white, transparent);
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+.notiglow {
+  z-index: 3;
+}
+
+.notiborderglow {
+  z-index: 1;
+}
+
+.notification:hover .notiglow {
+  opacity: 0.1
+}
+
+.notification:hover .notiborderglow {
+  opacity: 0.1
+}
+
+
 .checkbox input:checked ~ .checkmark {
   fill: hsl(108, 62%, 55%);
   stroke: hsl(0, 0%, 100%);
@@ -1496,21 +1594,27 @@ hr {
   position: absolute;
   width: 95vw;
   top: 11vh;
-  left: 10px;
+  left: 9px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
 }
 .item-con{
   width: 100%;
+
 }
 .con-item{
   width:100%;
   min-height: 70px;
   background-color: #22263e;
   border-radius: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   display: flex;
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
+
 }
 .join{
   background: #f9b17a;
@@ -1519,7 +1623,10 @@ hr {
   border-radius: 5px;
   margin-right: 15px;
 }
-
+.join.joined{
+  background-color: #6C7486;
+  color: #aaa;
+}
 .s-con{
   position: relative;
   display: flex;
@@ -1538,4 +1645,89 @@ hr {
   position: absolute;
   right: 5px;
   top:10px;
+}
+.tab-con.mycrs{
+  display: none;
+}
+.tab-con.mycrs>.main-container{
+  width: 100%;
+}
+.leavebtn>ion-icon{
+  color: crimson;
+  font-size: 25px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.tab-con.show{
+  display: none;
+}
+.mycr-sessions{
+  border:1px solid #676f9d;
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+.main-container{
+  width: 100%;
+}
+.con-item.smcr{
+  width: 93%;
+  margin-left: 10px;
+  padding: 5px 5px;
+  cursor: pointer;
+}
+.status{
+  display: flex;
+  gap: 0.625em;
+  transform: translate(-50%, -50%);
+  margin-right: -15px;
+}
+.status.live{
+  color: green;
+}
+.status.upcoming{
+  color: orange;
+}
+.status.ended{
+  color: crimson;
+}
+.status span {
+  border-radius: 50%;
+  height: 1.2em;
+  width: 1.2em;
+}
+.status span::before {
+  content: "";
+  display: block;
+  border-radius: inherit;
+  height: inherit;
+  width: inherit;
+  background-color: inherit;
+  animation: ripple 1.8s ease-out infinite;
+  animation-delay: inherit;
+  z-index: -1;
+}
+
+.status.live span:nth-of-type(1) {
+  background-color: green;
+}
+.status.upcoming span:nth-of-type(1) {
+  background-color: orange;
+}
+.status.ended span:nth-of-type(1) {
+  background-color: crimson;
+}
+@keyframes ripple {
+  from {
+    opacity: 1;
+    transform: scale(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(3);
+  }
+}
+.con-item.smcr.ended{
+  opacity: 0.5;
 }

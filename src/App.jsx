@@ -15,65 +15,73 @@ import { ShowQuiz } from '../components/ShowQuiz';
 import { ShowTask } from '../components/ShowTask';
 import { Session } from '../components/Session';
 import { Home } from '../components/Home';
+import { MyCRs } from '../components/MyCRs';
+import ShowMyCR from '../components/ShowMyCR';
+import { MySession } from '../components/MySession';
 
 function App() {
-  const {login,isLoading,setLogin,setIsLoading,userData,setUserData,message,refresh}=useStore();
-  const navigate=useNavigate();
-  useEffect(()=>{
-    const token=sessionStorage.getItem("token");
-    if(token!=null && userData==null){
+  const { login, isLoading, setLogin, setIsLoading, userData, setUserData, message, refresh } = useStore();
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (token != null && userData == null) {
       setIsLoading(true);
-      const fetchdata=async()=>{
-      const res= await fetch("http://localhost:3000/auth/profile", {
-            method: "POST",
-            headers: {
+      const fetchdata = async () => {
+        const res = await fetch("http://localhost:3000/auth/profile", {
+          method: "POST",
+          headers: {
             "Content-Type": "application/json",
-            },
-            body:JSON.stringify({token:token})
+          },
+          body: JSON.stringify({ token: token })
         })
-        if(res.ok){
-          const responce=await res.json();
+        if (res.ok) {
+          const responce = await res.json();
           console.log(responce);
           setUserData(responce);
           setLogin(true);
-        }else{
+        } else {
           setLogin(false);
           sessionStorage.removeItem("token");
         }
         setIsLoading(false);
-      navigate("/");
+        navigate("/");
       }
       fetchdata();
-    }else 
+    } else
       setLogin(false)
-  },[refresh])
+  }, [refresh])
   return (
     <>
-    {isLoading && <Loading/>}
-    <Message/>
-    <Routes>
-      {login?
-        <>
-        {userData!==null && userData.role==="FACULTY" ?
-        <><Route path='/' element={<ClassRoom/>}/>
-        <Route path='/classroom' element={<ShowCR/>}/>
-        <Route path='/tasks' element={<Tasks/>}/>
-        <Route path='/quizes' element={<Quiz/>}/>
-        <Route path='/tests' element={<Tests/>}/>
-        <Route path='/quiz' element={<ShowQuiz/>}/>
-        <Route path='/task' element={<ShowTask/>} />
-        <Route path='/session' element={<Session/>} />
-        </>:<>
-          <Route path='/' element={<Home/>} />
-        </>
+      {isLoading && <Loading />}
+      <Message />
+      <Routes>
+        {login ?
+          <>
+            {userData !== null && userData.role === "FACULTY" ?
+              <><Route path='/' element={<ClassRoom />} />
+                <Route path='/classroom' element={<ShowCR />} />
+                <Route path='/tasks' element={<Tasks />} />
+                <Route path='/quizes' element={<Quiz />} />
+                <Route path='/tests' element={<Tests />} />
+                <Route path='/quiz' element={<ShowQuiz />} />
+                <Route path='/task' element={<ShowTask />} />
+                <Route path='/session' element={<Session />} />
+              </> : <>
+                <Route path='/' element={<Home />} />
+                <Route path="/mycr" element={<MyCRs />}>
+                  <Route path="cr" element={<ShowMyCR />}>
+                    <Route path="session" element={<MySession />} />
+                  </Route>
+                </Route>
+              </>
+            }
+          </> :
+          <>
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+          </>
         }
-        </>:
-        <>
-          <Route path='/login' element={<Login/>}/>
-          <Route path='/register' element={<Register/>}/>
-        </>
-      }
-    </Routes>
+      </Routes>
     </>
   )
 }

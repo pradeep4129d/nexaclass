@@ -54,11 +54,11 @@ export const Header = () => {
                         </> : <>
                             <input type="radio" name="tab" id="tab1" className="tab tab--1" onClick={() => { navigate("/") }} />
                             <label className="tab_label" htmlFor="tab1">All</label>
-                            <input type="radio" name="tab" id="tab2" className="tab tab--2" onClick={() => { navigate("/quizes") }} />
+                            <input type="radio" name="tab" id="tab2" className="tab tab--2" onClick={() => { navigate("/mycr") }} />
                             <label className="tab_label" htmlFor="tab2">My CRs</label>
-                            <input type="radio" name="tab" id="tab3" className="tab tab--3" onClick={() => { navigate("/tasks") }} />
+                            <input type="radio" name="tab" id="tab3" className="tab tab--3" onClick={() => { navigate("/editor") }} />
                             <label className="tab_label" htmlFor="tab3">Code Editor</label>
-                            <input type="radio" name="tab" id="tab4" className="tab tab--4" onClick={() => { navigate("/tests") }} />
+                            <input type="radio" name="tab" id="tab4" className="tab tab--4" onClick={() => { navigate("/mytests") }} />
                             <label className="tab_label" htmlFor="tab4">My Tests</label>
                         </>
                     }

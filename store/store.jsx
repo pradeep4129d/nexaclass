@@ -8,9 +8,11 @@ const [message, setMessage] = useState({color:'',message:''});
 const [refresh, setRefresh] = useState(false);
 const [isLoading,setIsLoading]=useState(false);
 const [crItem,setCrItem]=useState(null);
+const [myCrItem,setMyCrItem]=useState(null);
 const [sItem,setSItem]=useState(null);
 const [quizItem,setQuizItem]=useState(null)
 const [taskItem,setTaskItem]=useState(null);
+const [mySessionItem,setMySessionItem]=useState(null);
     return (
         <ContextProvider.Provider value={{
         login,setLogin,
@@ -22,6 +24,8 @@ const [taskItem,setTaskItem]=useState(null);
         sItem,setSItem,
         quizItem,setQuizItem,
         taskItem,setTaskItem,
+        myCrItem,setMyCrItem,
+        mySessionItem,setMySessionItem,
         }}>{children}</ContextProvider.Provider>
     );
 };

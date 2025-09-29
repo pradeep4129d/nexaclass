@@ -106,6 +106,7 @@
   .tab--4:checked~.indicator {
     left: calc(130px * 3 + 2px);
   }
+
   .tab--5:checked~.indicator {
     left: calc(130px * 4 + 2px);
   }
@@ -219,7 +220,25 @@
   .search {
     margin-left: 80%;
   }
+
   .con-item.smcr {
     width: 98%;
+  }
+
+  .test-area {
+    width: 100%;
+  }
+  .question-prog {
+    position: absolute;
+    left: 6px;
+    top: 10px;
+    width: 99%;
+    height: 70px;
+    border: 1px solid #676f9d;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
 }

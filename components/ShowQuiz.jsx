@@ -278,7 +278,7 @@ return (
                             </button>
                         </div>
                         {
-                            q.options.map((option,index)=>(
+                            q.options && q.options.length > 0 && q.options.map((option,index)=>(
                                 <div className={`q-options ${q.answer==index?"correct":"wrong"}`}>
                                     {option.description}
                                 </div>

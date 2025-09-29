@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 export const Quiz = () => {
   const {userData,setIsLoading,setMessage,setQuizItem}=useStore()
-  const [quizes,setQuizes]=useState(null);
+  const [quizes,setQuizes]=useState([]);
   const [displayForm,setDisplayForm]=useState(false)
   const navigate=useNavigate();
   const [formData,setFormData]=useState({

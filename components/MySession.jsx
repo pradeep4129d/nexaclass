@@ -3,10 +3,11 @@ import useStore from '../store/store';
 import { useNavigate } from 'react-router-dom';
 
 export const MySession = () => {
-    const { mySessionItem } = useStore();
+    const { mySessionItem ,setTestItem} = useStore();
     const [activities, setActivities] = useState([]);
     const [timeLeft, setTimeLeft] = useState("");
     const navigate=useNavigate();
+    const [attemptedTests,setAttemptedTests]=useState([]);
     const testActivities = activities.filter(item => item.test);
     const generalActivities = activities.filter(item => !item.test);
     const updateCountdown = () => {
@@ -30,7 +31,6 @@ export const MySession = () => {
         const seconds = String(totalSeconds % 60).padStart(2, "0");
         return `${hours}:${minutes}:${seconds}`;
     };
-
     useEffect(() => {
         updateCountdown();
         const interval = setInterval(updateCountdown, 1000);
@@ -94,7 +94,7 @@ export const MySession = () => {
                                                     <p className="item-text desc">{item.type === "quiz" ? item.quiz.description : item.task.description}</p>
                                                 </div>
                                             </div>
-                                            <button className='join' onClick={()=>{navigate("/test")}}>Attempt</button>
+                                            <button className='join' onClick={()=>{setTestItem(item);navigate("/test")}}>Attempt</button>
                                         </div>
                                     ))} 
                                 </div>
@@ -111,7 +111,9 @@ export const MySession = () => {
                                                     <p className="item-text desc">{item.type === "quiz" ? item.quiz.description : item.task.description}</p>
                                                 </div>
                                             </div>
-                                            <button className='join' onClick={()=>{navigate("/test")}}>Attempt</button>
+                                            <button className='join' onClick={()=>{
+                                                setTestItem(item);
+                                                navigate("/test")}}>Attempt</button>
                                         </div>
                                     ))}
                                 </div>

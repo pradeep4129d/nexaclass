@@ -8,7 +8,7 @@ import Loading from '../components/Loading';
 import Message from '../components/Message';
 import { Tasks } from '../components/Tasks';
 import { Quiz } from '../components/Quiz';
-import { Tests } from '../components/Tests';
+import { Test } from '../components/Test';
 import { ClassRoom } from '../components/ClassRoom';
 import { ShowCR } from '../components/ShowCR';
 import { ShowQuiz } from '../components/ShowQuiz';
@@ -19,6 +19,7 @@ import { MyCRs } from '../components/MyCRs';
 import ShowMyCR from '../components/ShowMyCR';
 import { MySession } from '../components/MySession';
 import { CodeEditor } from '../components/CodeEditor';
+import { TestReport } from '../components/TestReport';
 
 function App() {
   const { login, isLoading, setLogin, setIsLoading, userData, setUserData, message, refresh } = useStore();
@@ -63,7 +64,7 @@ function App() {
                 <Route path='/classroom' element={<ShowCR />} />
                 <Route path='/tasks' element={<Tasks />} />
                 <Route path='/quizes' element={<Quiz />} />
-                <Route path='/tests' element={<Tests />} />
+                <Route path='/testsreport' element={<TestReport />} />
                 <Route path='/quiz' element={<ShowQuiz />} />
                 <Route path='/task' element={<ShowTask />} />
                 <Route path='/session' element={<Session />} />
@@ -74,6 +75,7 @@ function App() {
                     <Route path="session" element={<MySession />} />
                   </Route>
                 </Route>
+                <Route path='/test' element={<Test />} />
                 <Route path='/editor' element={<CodeEditor />} />
               </>
             }

@@ -20,6 +20,7 @@ import ShowMyCR from '../components/ShowMyCR';
 import { MySession } from '../components/MySession';
 import { CodeEditor } from '../components/CodeEditor';
 import { TestReport } from '../components/TestReport';
+import { MyTestReports } from '../components/MyTestReports';
 
 function App() {
   const { login, isLoading, setLogin, setIsLoading, userData, setUserData, message, refresh } = useStore();
@@ -77,6 +78,7 @@ function App() {
                 </Route>
                 <Route path='/test' element={<Test />} />
                 <Route path='/editor' element={<CodeEditor />} />
+                <Route path='/mytests' element={<MyTestReports />} />
               </>
             }
           </> :

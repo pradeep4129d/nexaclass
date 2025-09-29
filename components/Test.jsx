@@ -4,13 +4,61 @@ import { useNavigate } from 'react-router-dom';
 import ProgressBar from './ProgressBar';
 
 export const Test = () => {
-  const { testItem } = useStore();
+  const { testItem, userData, setIsLoading, setMessage } = useStore();
   const [displayInstructions, setDisplayInstructions] = useState(true);
   const [displayTestDetails, setDisplayTestDetails] = useState(false);
   const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [ActivityReport, setActivityReport] = useState({
+    facultyId: testItem.facultyId,
+    sessionId: testItem.sessionId,
+    type: testItem.type,
+    activityId: testItem.activityId,
+    test: testItem.test,
+    studentId: userData.id,
+    passed: false,
+    marksScored: 0,
+    taskAnswer: "",
+    quizAnswers: ""
+  })
+  console.log(ActivityReport)
   const navigate = useNavigate()
+  const handleSubmit = async () => {
+    setIsLoading(true)
+    var marksScored = 0;
+    for (let i = 0; i < questions.length; i++) {
+      if (selectedAnswers[i] === -1)
+        continue;
+      if (questions[i].questions.answer === selectedAnswers[i] + "") {
+        marksScored += testItem.quiz.marksForCorrect
+      } else
+        marksScored -= testItem.quiz.negativeMarks
+    }
+    const updatedReport = {
+      ...ActivityReport,
+      marksScored,
+      quizAnswers: JSON.stringify(selectedAnswers),
+      passed: marksScored >= testItem.quiz.passingMarks
+    };
+    setActivityReport(updatedReport);
+    console.log(updatedReport);
+    const token = sessionStorage.getItem("token");
+    const res = await fetch("http://localhost:3000/student/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(updatedReport),
+    });
+    setIsLoading(false);
+    if (res.ok) {
+      navigate("/mytests")
+      setMessage({ color: "green", message: "submitted successfully" });
+    } else
+      setMessage({ color: "crimson", message: "error submitting" });
+  }
   useEffect(() => {
     if (questions.length > 0) {
       setSelectedAnswers(new Array(questions.length).fill(-1));
@@ -237,12 +285,18 @@ export const Test = () => {
             </div>
           </div>
           <div className="navbtns">
-            {
-              currentQuestion > 0 && <button className='join prev' onClick={() => { setCurrentQuestion(currentQuestion - 1) }}>Previous</button>
-            }
-            {
-              currentQuestion < questions.length - 1 && <button className='join next' onClick={() => { setCurrentQuestion(currentQuestion + 1) }}>Next</button>
-            }
+            <div>
+              {
+                currentQuestion > 0 && <button className='join prev' onClick={() => { setCurrentQuestion(currentQuestion - 1) }}>Previous</button>
+              }
+              {
+                currentQuestion < questions.length - 1 && <button className='join next' onClick={() => { setCurrentQuestion(currentQuestion + 1) }}>Next</button>
+              }
+            </div>
+            <button className='join prev' onClick={() => {
+              alert("Are You Sure want to Submit test")
+              handleSubmit()
+            }}>Submit</button>
           </div>
         </div>
       }

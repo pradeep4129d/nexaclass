@@ -1898,11 +1898,11 @@ hr {
 }
 .navbtns{
   margin-top: 10px;
-  width: 90%;
   display: flex;
+  width: 90%;
   justify-content: space-between;
 }
-.navbtns>button{
+.navbtns>button,.join.prev,.join.next{
   padding: 8px 10px;
   font-size: 17px;
 }

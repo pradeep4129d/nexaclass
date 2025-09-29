@@ -103,7 +103,7 @@ export const ShowQuiz = () => {
         if (res.ok) {
             const response = await res.json();
             console.log(response);
-            setMessage({ color: "green", message: response.body });
+            setMessage({ color: "green", message:"updated successfully"});
         } else
             setMessage({ color: "crimson", message: "error creating" });
         } catch (error) {

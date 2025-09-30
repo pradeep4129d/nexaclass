@@ -228,6 +228,7 @@
   .test-area {
     width: 100%;
   }
+
   .question-prog {
     position: absolute;
     left: 6px;
@@ -241,4 +242,12 @@
     align-items: center;
     flex-direction: column;
   }
+  .q.task {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #676f9d;
+    text-align: center;
+    padding: 10px;
+  }
+
 }

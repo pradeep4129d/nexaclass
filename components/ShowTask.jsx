@@ -17,7 +17,7 @@ export const ShowTask = () => {
         if(token!==null){
         setIsLoading(true);
         const fetchData=async()=>{
-            const res = await fetch(`http://localhost:3000/faculty/question/${taskItem.id}`, {
+            const res = await fetch(`http://localhost:3000/faculty/taskquestion/${taskItem.id}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -40,7 +40,7 @@ export const ShowTask = () => {
         const token=sessionStorage.getItem("token");
         if(token!==null){
             setIsLoading(true);
-            const res = await fetch(`http://localhost:3000/faculty/question/${id}`, {
+            const res = await fetch(`http://localhost:3000/faculty/taskquestion/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",

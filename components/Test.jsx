@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import useStore from '../store/store';
 import { useNavigate } from 'react-router-dom';
 import ProgressBar from './ProgressBar';
+import { Editor } from '@monaco-editor/react';
 
 export const Test = () => {
   const { testItem, userData, setIsLoading, setMessage } = useStore();
@@ -60,11 +61,10 @@ export const Test = () => {
       setMessage({ color: "crimson", message: "error submitting" });
   }
   useEffect(() => {
-    if (questions.length > 0) {
+    if (testItem.type === 'quiz' && questions.length > 0) {
       setSelectedAnswers(new Array(questions.length).fill(-1));
     }
   }, [questions]);
-  console.log(selectedAnswers)
   useEffect(() => {
     if (testItem === null)
       navigate("/");
@@ -123,7 +123,7 @@ export const Test = () => {
     };
     testItem && fetchQuestions();
   }, []);
-
+  console.log(questions)
   useEffect(() => {
     console.log(testItem);
     if (testItem && !testItem.test) {
@@ -251,13 +251,14 @@ export const Test = () => {
         </div>
       }
       {
-        !displayInstructions && !displayTestDetails && testItem.type === 'quiz' &&
+        !displayInstructions && !displayTestDetails && testItem.type === 'quiz' && questions.length>0 &&
         <div className="test-area quiz">
-          <div className="time-rem">
-            <p>Time Remaining: 30 minutes</p>
-          </div>
+          
           <div className="question-prog">
-            Question 1 / {questions.length}
+            <div className="q-info">
+              <div>{currentQuestion + 1} / {questions.length}</div>
+              <div>Time: 2hrs</div>
+            </div>
             <ProgressBar total={questions.length} current={currentQuestion + 1} />
           </div>
           <div className="question-con">
@@ -301,16 +302,27 @@ export const Test = () => {
         </div>
       }
       {
-        !displayInstructions && !displayTestDetails && testItem.type === 'task' &&
+        !displayInstructions && !displayTestDetails && testItem.type === 'task' && questions.length>0 &&
         <div className="test-area task">
-          <div className="time-rem">
-            <p>Time Remaining: 2 hours</p>
-          </div>
           <div className="question-prog">
-            Question 1 of {questions.length}
+            <div className="q-info">
+              <div>Question {currentQuestion + 1} / {questions.length}</div>
+              <div>Time: 2hrs</div>
+            </div>
             <ProgressBar total={questions.length} current={currentQuestion + 1} />
           </div>
-          <h2>Test Area</h2>
+          {questions.length >= 0 && <div className="question-con task">
+            <div className="q task">{questions[currentQuestion].description}</div>
+            <div className="answer">
+              {testItem.includeEditor ? <div className="code">
+                
+              </div> :
+                <div className="input-answer">
+
+                </div>
+              }
+            </div>
+          </div>}
         </div>
       }
     </div >

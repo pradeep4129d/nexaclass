@@ -77,7 +77,13 @@ function App() {
                   </Route>
                 </Route>
                 <Route path='/test' element={<Test />} />
-                <Route path='/editor' element={<CodeEditor />} />
+                <Route path='/editor' element={<CodeEditor
+                  width="100%"
+                  height="100%"
+                  defaultLanguage="java"
+                  onCodeChange={(code) => console.log("Current code:", code)}
+                  onOutputChange={(output) => console.log("Code output:", output)}
+                />} />
                 <Route path='/mytests' element={<MyTestReports />} />
               </>
             }

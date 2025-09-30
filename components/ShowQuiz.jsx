@@ -16,7 +16,7 @@ export const ShowQuiz = () => {
         const token=sessionStorage.getItem("token");
         if(token!==null){
             setIsLoading(true);
-            const res = await fetch(`http://localhost:3000/faculty/question/${questions[index].id}`, {
+            const res = await fetch(`http://localhost:3000/faculty/quizquestion/${questions[index].id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -37,7 +37,7 @@ export const ShowQuiz = () => {
             if(token!==null){
             setIsLoading(true);
             const fetchData=async()=>{
-                const res = await fetch(`http://localhost:3000/faculty/question/${quizItem.id}`, {
+                const res = await fetch(`http://localhost:3000/faculty/quizquestion/${quizItem.id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

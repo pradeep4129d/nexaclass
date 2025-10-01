@@ -6,12 +6,11 @@ import useStore from "../store/store";
 
 const defaultCodes = {
     c: "#include <stdio.h>\nint main() {\n    printf(\"Hello from C!\\n\");\n    return 0;\n}",
-    cpp: "#include <iostream>\nusing namespace std;\nint main() {\n    cout << \"Hello from C++!\" << endl;\n    return 0;\n}",
+    cpp: "#include <iostream>\nusing namespace std;\nint main() {\n    setvbuf(stdout, nullptr, _IONBF, 0);\n    cout << \"Hello from C++!\" << endl;\n    return 0;\n}",
     python: "print('Hello from Python!')",
-    java: "class Main {\n    public static void main(String[] args) {\n        System.out.println(\"Hello from Java!\");\n    }\n}",
+    java: "import java.io.PrintWriter;\n\nclass Main {\n    public static void main(String[] args) {\n        // Use PrintWriter with autoflush to guarantee immediate output\n        PrintWriter out = new PrintWriter(System.out, true);\n        out.println(\"Hello from Java!\");\n    }\n}",
     javascript: "console.log('Hello from JavaScript!');",
 };
-
 const languages = [
     { label: "C", value: "c" },
     { label: "C++", value: "cpp" },
@@ -79,7 +78,7 @@ export const CodeEditor = ({
     };
     const handleSendInput = () => {
         if (!client || !client.connected) return;
-        client.send("/app/input", {}, JSON.stringify({ input: userInput}));
+        client.send("/app/input", {}, JSON.stringify({ input: userInput,processId}));
     };
     return (
         <div className="code-editor" style={{ display: "flex", gap: "10px" }}>
@@ -108,7 +107,7 @@ export const CodeEditor = ({
                 }}
             >
                 <div className="lang-selection" style={{ marginBottom: "10px" }}>
-                    <select value={language} onChange={(e) => setLanguage(e.target.value)}>
+                    <select value={language} onChange={(e) =>{setProcessId(""); setLanguage(e.target.value)}}>
                         {languages.map((lang) => (
                             <option key={lang.value} value={lang.value}>
                                 {lang.label}

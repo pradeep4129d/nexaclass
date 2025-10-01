@@ -32,8 +32,11 @@ export const CodeEditor = ({
     const [isRunning, setIsRunning] = useState(false);
     const [userInput, setUserInput] = useState("");
     const [client, setClient] = useState(null);
-    const [processId,setProcessId]=useState("");
-    const { setMessage,userData } = useStore();
+    const [processId, setProcessId] = useState("");
+    const { setMessage, userData } = useStore();
+    const [error,setError]=useState(false)
+    const [showOutput,setShowOutput]=useState(false)
+    const [showEditor,setShowEditor]=useState(false)
     useEffect(() => {
         const defaultCode = defaultCodes[language];
         setCode(defaultCode);
@@ -44,12 +47,14 @@ export const CodeEditor = ({
         onCodeChange(value);
     };
     useEffect(() => {
-    if (client && processId!=="") {
-        client.subscribe("/topic/output/" + processId, (msg) => {
-            const outputdata = JSON.parse(msg.body);
-            setOutput(prev => prev + outputdata.line);
-        });
-    }
+        if (client && processId !== "") {
+            client.subscribe("/topic/output/" + processId, (msg) => {
+                const outputdata = JSON.parse(msg.body);
+                console.log(outputdata)
+                setOutput(prev => prev ? prev + "\n" + outputdata.line : outputdata.line);
+                setError(outputdata.type==="stderr"?true:false);
+            });
+        }
     }, [processId, client]);
     useEffect(() => {
         const socket = new SockJS("http://localhost:3000/ws");
@@ -59,8 +64,8 @@ export const CodeEditor = ({
             stompClient.subscribe("/topic/output", (msg) => {
                 const receivedMsg = msg;
             });
-            stompClient.subscribe("/topic/output/"+userData.id,(msg)=>{
-                const processDetails=JSON.parse(msg.body)
+            stompClient.subscribe("/topic/output/" + userData.id, (msg) => {
+                const processDetails = JSON.parse(msg.body)
                 setProcessId(processDetails.processId);
             })
         });
@@ -72,19 +77,21 @@ export const CodeEditor = ({
         };
     }, []);
     const handleRun = () => {
+        setIsRunning(true)
         if (!client || !client.connected) return;
         setOutput("")
-        client.send("/app/run", {}, JSON.stringify({ language,code,oldProcessId:processId,studentId:userData.id}));
+        client.send("/app/run", {}, JSON.stringify({ language, code, oldProcessId: processId, studentId: userData.id }));
+        setIsRunning(false)
     };
     const handleSendInput = () => {
         if (!client || !client.connected) return;
-        client.send("/app/input", {}, JSON.stringify({ input: userInput,processId}));
+        client.send("/app/input", {}, JSON.stringify({ input: userInput, processId }));
+        setUserInput("")
     };
     return (
-        <div className="code-editor" style={{ display: "flex", gap: "10px" }}>
-            <div className="editor" style={{ width: "50%" }}>
+        <div className="code-editor">
+            <div className={"editor "+showEditor}>
                 <Editor
-                    height={height}
                     width={width}
                     language={language}
                     theme="vs-dark"
@@ -97,61 +104,71 @@ export const CodeEditor = ({
                     }}
                 />
             </div>
-
-            <div
-                className="output"
-                style={{
-                    width: "50%",
-                    display: "flex",
-                    flexDirection: "column",
-                }}
-            >
-                <div className="lang-selection" style={{ marginBottom: "10px" }}>
-                    <select value={language} onChange={(e) =>{setProcessId(""); setLanguage(e.target.value)}}>
+            <div className="run-bar">
+                <div className="lang-selection run" style={{ marginBottom: "10px" }}>
+                    <select value={language} onChange={(e) => { setProcessId(""); setLanguage(e.target.value) }}>
                         {languages.map((lang) => (
                             <option key={lang.value} value={lang.value}>
                                 {lang.label}
                             </option>
                         ))}
                     </select>
+                    <div className="nav-btns">
+                        <button className="join run" onClick={()=>{setShowOutput(false);setShowEditor(false)}}><ion-icon name="code-slash-outline"></ion-icon></button>
+                        <hr />
+                        <button className="join run" onClick={()=>{setShowEditor(true);setShowOutput(true)}}><ion-icon name="log-out-outline"></ion-icon></button>
+                    </div>
                     <button
-                        className="join"
+                        className="join run"
                         onClick={handleRun}
                         disabled={isRunning}
                         style={{ marginLeft: "10px" }}
                     >
-                        {isRunning ? "Running..." : "Run"}
+                        <ion-icon name="play-outline"></ion-icon>
                     </button>
                 </div>
-
-                <div
-                    className="output-con"
-                    style={{
-                        flexGrow: 1,
-                        overflowY: "auto",
-                        marginTop: "10px",
-                        background: "#1e1e1e",
-                        color: "#fff",
-                        padding: "10px",
-                        borderRadius: "4px",
-                    }}
-                >
-                    <strong>Output:</strong>
-                    <pre>{output}</pre>
-                </div>
-
-                <div className="input-con" style={{ marginTop: "10px" }}>
-                    <input
-                        type="text"
-                        placeholder="Enter input..."
-                        value={userInput}
-                        onChange={(e) => setUserInput(e.target.value)}
-                        style={{ width: "80%", padding: "5px" }}
-                    />
-                    <button onClick={handleSendInput} style={{ marginLeft: "5px" }}>
-                        Send Input
+            </div>
+            <div className={"output "+showOutput}>
+                <div className="lang-selection off" style={{ marginBottom: "10px" }}>
+                    <select value={language} onChange={(e) => { setProcessId(""); setLanguage(e.target.value) }}>
+                        {languages.map((lang) => (
+                            <option key={lang.value} value={lang.value}>
+                                {lang.label}
+                            </option>
+                        ))}
+                    </select>
+                    
+                    <button
+                        className="join run"
+                        onClick={handleRun}
+                        disabled={isRunning}
+                        style={{ marginLeft: "10px" }}
+                    >
+                        <ion-icon name="play-outline"></ion-icon>
                     </button>
                 </div>
+                <strong>Output:</strong>
+                <div className="output-con">
+                    <div className={"out "+error}>
+                        <p>{output}</p>
+                        <div className="input-con">
+                            <input
+                                type="text"
+                                value={userInput}
+                                onChange={(e) => setUserInput(e.target.value)}
+                                style={{ width: "80%", padding: "5px" }}
+                                autoFocus
+                                onKeyDown={(e)=>{
+                                    if(e.key==='Enter'){
+                                        setOutput(prev => prev ? prev + "\n" +userInput : userInput);
+                                        handleSendInput();
+                                    }
+                                }}
+                            />
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     );

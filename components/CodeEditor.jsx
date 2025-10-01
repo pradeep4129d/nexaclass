@@ -46,12 +46,13 @@ export const CodeEditor = ({
         setCode(value);
         onCodeChange(value);
     };
+    console.log(output)
     useEffect(() => {
         if (client && processId !== "") {
             client.subscribe("/topic/output/" + processId, (msg) => {
                 const outputdata = JSON.parse(msg.body);
                 console.log(outputdata)
-                setOutput(prev => prev ? prev + "\n" + outputdata.line : outputdata.line);
+                setOutput(prev => prev + outputdata.line + '\n');
                 setError(outputdata.type==="stderr"?true:false);
             });
         }
@@ -150,7 +151,7 @@ export const CodeEditor = ({
                 <strong>Output:</strong>
                 <div className="output-con">
                     <div className={"out "+error}>
-                        <p>{output}</p>
+                        <pre>{output}</pre>
                         <div className="input-con">
                             <input
                                 type="text"
@@ -160,7 +161,7 @@ export const CodeEditor = ({
                                 autoFocus
                                 onKeyDown={(e)=>{
                                     if(e.key==='Enter'){
-                                        setOutput(prev => prev ? prev + "\n" +userInput : userInput);
+                                        setOutput(prev => prev + userInput + '\n');
                                         handleSendInput();
                                     }
                                 }}

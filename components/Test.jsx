@@ -9,6 +9,7 @@ export const Test = () => {
   const { testItem, userData, setIsLoading, setMessage } = useStore();
   const [displayInstructions, setDisplayInstructions] = useState(true);
   const [displayTestDetails, setDisplayTestDetails] = useState(false);
+  const [userAnswer,setUserAnswer]=useState("")
   const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -24,7 +25,11 @@ export const Test = () => {
     taskAnswer: "",
     quizAnswers: ""
   })
+  console.log("user answer:"+userAnswer);
   console.log(ActivityReport)
+  const normalize = (s) => 
+  s.replace(/^\n+/, "") 
+   .replace(/\n+$/, "");  
   const navigate = useNavigate()
   const handleSubmit = async () => {
     setIsLoading(true)
@@ -313,11 +318,15 @@ export const Test = () => {
             <ProgressBar total={questions.length} current={currentQuestion + 1} />
           </div>
           {questions.length >= 0 && <div className="question-con task">
-            <div className="q task">{questions[currentQuestion].description} </div>
-            <div className="q task">{questions[currentQuestion].answer} </div>
+            <div className="q task"><pre>{questions[currentQuestion].description}</pre></div>
+            {testItem.includeEditor && <div className="q task"><div className="testcase">
+              <p>Test Case:</p>
+              <div className={`tc-status ${normalize(userAnswer) === normalize(questions[currentQuestion].answer) ? "true" : "false"}`}>{normalize(userAnswer) === normalize(questions[currentQuestion].answer)?"Passed":"Failed"}</div>
+              </div><pre>{questions[currentQuestion].answer}</pre> </div>}
+            {console.log(normalize(userAnswer) === normalize(questions[currentQuestion].answer))}
             <div className="answer">
               {testItem.includeEditor ?
-                <CodeEditor test='test' />
+                <CodeEditor test='test' onOutputChange={(output) => setUserAnswer(output)} />
                 :
                 <div className="input-answer">
 

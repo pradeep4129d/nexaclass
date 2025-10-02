@@ -20,12 +20,12 @@ const languages = [
 ];
 
 export const CodeEditor = ({
-    test="",
+    test = "",
     width = "100%",
     height = "500px",
     defaultLanguage = "javascript",
     onCodeChange = () => { },
-    onOutputChange = () => { },
+    onOutputChange = () => {},
 }) => {
     const [language, setLanguage] = useState(defaultLanguage);
     const [code, setCode] = useState(defaultCodes[defaultLanguage]);
@@ -35,9 +35,9 @@ export const CodeEditor = ({
     const [client, setClient] = useState(null);
     const [processId, setProcessId] = useState("");
     const { setMessage, userData } = useStore();
-    const [error,setError]=useState(false)
-    const [showOutput,setShowOutput]=useState(false)
-    const [showEditor,setShowEditor]=useState(false)
+    const [error, setError] = useState(false)
+    const [showOutput, setShowOutput] = useState(false)
+    const [showEditor, setShowEditor] = useState(false)
     useEffect(() => {
         const defaultCode = defaultCodes[language];
         setCode(defaultCode);
@@ -47,17 +47,17 @@ export const CodeEditor = ({
         setCode(value);
         onCodeChange(value);
     };
-    console.log(output)
     useEffect(() => {
         if (client && processId !== "") {
             client.subscribe("/topic/output/" + processId, (msg) => {
                 const outputdata = JSON.parse(msg.body);
                 console.log(outputdata)
-                setOutput(prev => prev + outputdata.line + '\n');
-                setError(outputdata.type==="stderr"?true:false);
+                setOutput(prev => prev + outputdata.line.replace(/\n*$/, "\n"));
+                setError(outputdata.type === "stderr" ? true : false);
             });
         }
     }, [processId, client]);
+    useEffect(()=>{onOutputChange(output)},[output])
     useEffect(() => {
         const socket = new SockJS("http://localhost:3000/ws");
         const stompClient = Stomp.over(socket);
@@ -91,8 +91,8 @@ export const CodeEditor = ({
         setUserInput("")
     };
     return (
-        <div className={"code-editor "+test} style={{ position: "relative" }}>
-            <div className={"editor "+showEditor+" "+test}>
+        <div className={"code-editor " + test}>
+            <div className={"editor " + showEditor + " " + test}>
                 <Editor
                     width={width}
                     language={language}
@@ -106,7 +106,7 @@ export const CodeEditor = ({
                     }}
                 />
             </div>
-            <div className={"run-bar "+test}>
+            <div className={"run-bar " + test}>
                 <div className="lang-selection run" style={{ marginBottom: "10px" }}>
                     <select value={language} onChange={(e) => { setProcessId(""); setLanguage(e.target.value) }}>
                         {languages.map((lang) => (
@@ -116,13 +116,13 @@ export const CodeEditor = ({
                         ))}
                     </select>
                     <div className="nav-btns">
-                        <button className="join run" onClick={()=>{setShowOutput(false);setShowEditor(false)}}><ion-icon name="code-slash-outline"></ion-icon></button>
+                        <button className="join run" onClick={() => { setShowOutput(false); setShowEditor(false) }}><ion-icon name="code-slash-outline"></ion-icon></button>
                         <hr />
-                        <button className="join run" onClick={()=>{setShowEditor(true);setShowOutput(true)}}><ion-icon name="log-out-outline"></ion-icon></button>
+                        <button className="join run" onClick={() => { setShowEditor(true); setShowOutput(true) }}><ion-icon name="log-out-outline"></ion-icon></button>
                     </div>
                     <button
                         className="join run"
-                        onClick={handleRun}
+                        onClick={() => { setShowEditor(true); setShowOutput(true); handleRun() }}
                         disabled={isRunning}
                         style={{ marginLeft: "10px" }}
                     >
@@ -130,7 +130,7 @@ export const CodeEditor = ({
                     </button>
                 </div>
             </div>
-            <div className={"output "+showOutput+" test"}>
+            <div className={"output " + showOutput + " " + test}>
                 <div className="lang-selection off" style={{ marginBottom: "10px" }}>
                     <select value={language} onChange={(e) => { setProcessId(""); setLanguage(e.target.value) }}>
                         {languages.map((lang) => (
@@ -141,7 +141,7 @@ export const CodeEditor = ({
                     </select>
                     <button
                         className="join run"
-                        onClick={handleRun}
+                        onClick={() => { handleRun; }}
                         disabled={isRunning}
                         style={{ marginLeft: "10px" }}
                     >
@@ -149,8 +149,8 @@ export const CodeEditor = ({
                     </button>
                 </div>
                 <strong>Output:</strong>
-                <div className={"output-con "+test}>
-                    <div className={"out "+error}>
+                <div className={"output-con " + test}>
+                    <div className={"out " + error}>
                         <pre>{output}</pre>
                         <div className="input-con">
                             <input
@@ -159,8 +159,8 @@ export const CodeEditor = ({
                                 onChange={(e) => setUserInput(e.target.value)}
                                 style={{ width: "80%", padding: "5px" }}
                                 autoFocus
-                                onKeyDown={(e)=>{
-                                    if(e.key==='Enter'){
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
                                         setOutput(prev => prev + userInput + '\n');
                                         handleSendInput();
                                     }

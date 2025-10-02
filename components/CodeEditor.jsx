@@ -20,6 +20,7 @@ const languages = [
 ];
 
 export const CodeEditor = ({
+    test="",
     width = "100%",
     height = "500px",
     defaultLanguage = "javascript",
@@ -90,8 +91,8 @@ export const CodeEditor = ({
         setUserInput("")
     };
     return (
-        <div className="code-editor">
-            <div className={"editor "+showEditor}>
+        <div className={"code-editor "+test} style={{ position: "relative" }}>
+            <div className={"editor "+showEditor+" "+test}>
                 <Editor
                     width={width}
                     language={language}
@@ -105,7 +106,7 @@ export const CodeEditor = ({
                     }}
                 />
             </div>
-            <div className="run-bar">
+            <div className={"run-bar "+test}>
                 <div className="lang-selection run" style={{ marginBottom: "10px" }}>
                     <select value={language} onChange={(e) => { setProcessId(""); setLanguage(e.target.value) }}>
                         {languages.map((lang) => (
@@ -129,7 +130,7 @@ export const CodeEditor = ({
                     </button>
                 </div>
             </div>
-            <div className={"output "+showOutput}>
+            <div className={"output "+showOutput+" test"}>
                 <div className="lang-selection off" style={{ marginBottom: "10px" }}>
                     <select value={language} onChange={(e) => { setProcessId(""); setLanguage(e.target.value) }}>
                         {languages.map((lang) => (
@@ -138,7 +139,6 @@ export const CodeEditor = ({
                             </option>
                         ))}
                     </select>
-                    
                     <button
                         className="join run"
                         onClick={handleRun}
@@ -149,7 +149,7 @@ export const CodeEditor = ({
                     </button>
                 </div>
                 <strong>Output:</strong>
-                <div className="output-con">
+                <div className={"output-con "+test}>
                     <div className={"out "+error}>
                         <pre>{output}</pre>
                         <div className="input-con">
@@ -169,7 +169,6 @@ export const CodeEditor = ({
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     );

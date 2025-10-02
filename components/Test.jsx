@@ -3,6 +3,7 @@ import useStore from '../store/store';
 import { useNavigate } from 'react-router-dom';
 import ProgressBar from './ProgressBar';
 import { Editor } from '@monaco-editor/react';
+import { CodeEditor } from './CodeEditor';
 
 export const Test = () => {
   const { testItem, userData, setIsLoading, setMessage } = useStore();
@@ -251,9 +252,9 @@ export const Test = () => {
         </div>
       }
       {
-        !displayInstructions && !displayTestDetails && testItem.type === 'quiz' && questions.length>0 &&
+        !displayInstructions && !displayTestDetails && testItem.type === 'quiz' && questions.length > 0 &&
         <div className="test-area quiz">
-          
+
           <div className="question-prog">
             <div className="q-info">
               <div>{currentQuestion + 1} / {questions.length}</div>
@@ -302,7 +303,7 @@ export const Test = () => {
         </div>
       }
       {
-        !displayInstructions && !displayTestDetails && testItem.type === 'task' && questions.length>0 &&
+        !displayInstructions && !displayTestDetails && testItem.type === 'task' && questions.length > 0 &&
         <div className="test-area task">
           <div className="question-prog">
             <div className="q-info">
@@ -312,15 +313,30 @@ export const Test = () => {
             <ProgressBar total={questions.length} current={currentQuestion + 1} />
           </div>
           {questions.length >= 0 && <div className="question-con task">
-            <div className="q task">{questions[currentQuestion].description}</div>
+            <div className="q task">{questions[currentQuestion].description} </div>
+            <div className="q task">{questions[currentQuestion].answer} </div>
             <div className="answer">
-              {testItem.includeEditor ? <div className="code">
-                
-              </div> :
+              {testItem.includeEditor ?
+                <CodeEditor test='test' />
+                :
                 <div className="input-answer">
 
                 </div>
               }
+              <div className="navbtns test">
+                <div>
+                  {
+                    currentQuestion > 0 && <button className='join prev' onClick={() => { setCurrentQuestion(currentQuestion - 1) }}>Previous</button>
+                  }
+                  {
+                    currentQuestion < questions.length - 1 && <button className='join next' onClick={() => { setCurrentQuestion(currentQuestion + 1) }}>Next</button>
+                  }
+                </div>
+                <button className='join prev' onClick={() => {
+                  alert("Are You Sure want to Submit test")
+                  handleSubmit()
+                }}>Submit</button>
+              </div>
             </div>
           </div>}
         </div>

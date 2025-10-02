@@ -78,6 +78,7 @@ function App() {
                 </Route>
                 <Route path='/test' element={<Test />} />
                 <Route path='/editor' element={<CodeEditor
+                  test=""
                   width="100%"
                   height="100%"
                   defaultLanguage="java"

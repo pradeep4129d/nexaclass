@@ -14,6 +14,7 @@ const [quizItem,setQuizItem]=useState(null)
 const [taskItem,setTaskItem]=useState(null);
 const [mySessionItem,setMySessionItem]=useState(null);
 const [testItem,setTestItem]=useState(null);
+const [activityReports,setActivityReports]=useState([]);
     return (
         <ContextProvider.Provider value={{
         login,setLogin,
@@ -28,6 +29,7 @@ const [testItem,setTestItem]=useState(null);
         myCrItem,setMyCrItem,
         mySessionItem,setMySessionItem,
         testItem,setTestItem,
+        activityReports,setActivityReports,
         }}>{children}</ContextProvider.Provider>
     );
 };

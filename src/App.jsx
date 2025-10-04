@@ -23,7 +23,7 @@ import { TestReport } from '../components/TestReport';
 import { MyTestReports } from '../components/MyTestReports';
 
 function App() {
-  const { login, isLoading, setLogin, setIsLoading, userData, setUserData, message, refresh } = useStore();
+  const { login, isLoading, setLogin, setIsLoading, userData, setUserData, message, refresh, setActivityReports } = useStore();
   const navigate = useNavigate();
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -53,6 +53,28 @@ function App() {
     } else
       setLogin(false)
   }, [refresh])
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (token != null && userData != null) {
+      setIsLoading(true);
+      const fetchData = async () => {
+        const res = await fetch(`http://localhost:3000/student/attempted`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          }
+        });
+        if (res.ok) {
+          const response = await res.json();
+          console.log(response)
+          setActivityReports(response);
+        }
+      }
+      fetchData()
+      setIsLoading(false);
+    }
+  }, [userData])
   return (
     <>
       {isLoading && <Loading />}

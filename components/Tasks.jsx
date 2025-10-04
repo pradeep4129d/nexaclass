@@ -105,7 +105,6 @@ export const Tasks = () => {
               <input required onChange={handlechange} placeholder="title"  name="title" type="text" className="input_field"/>
               <input required onChange={handlechange} placeholder="description"  name="description" type="text" className="input_field"/>
               <input required onChange={handlechange} placeholder="marks"  name="marks" type="number" className="input_field"/>              
-              <div className='eval-con'><label htmlFor="eval">Auto Evalute Answers:</label><input  onChange={handlechange} id='eval' name="eval" type="checkbox" value={JSON.parse(taskForm.eval)?false:true} className="input_field"/></div>
               <button className="submit" type='submit'>Create</button>
             </form>
           </div>

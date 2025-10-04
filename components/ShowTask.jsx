@@ -146,9 +146,7 @@ return (
                 <form className='question-form' onSubmit={(e)=>{e.preventDefault()}}>
                 <div className="question-form">
                     <textarea autoFocus placeholder='Enter your question..' type="text" name="description" id="taskQ" required  onChange={(e)=>{setQuestion({...question,description:e.target.value})}}/>
-                    {
-                        !taskItem.eval && <textarea placeholder='Enter your answer/test cases...'  type="text" name="answer" id="taskQ" required  onChange={(e)=>{setQuestion({...question,answer:e.target.value})}}/>
-                    }
+                    <textarea placeholder='Enter your answer/test cases...'  type="text" name="answer" id="taskQ" required  onChange={(e)=>{setQuestion({...question,answer:e.target.value})}}/>
                 </div>
                 </form>
             </>}

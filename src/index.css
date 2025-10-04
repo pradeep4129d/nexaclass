@@ -2443,3 +2443,32 @@ pre {
   width: 100%;
   resize: none;
 }
+.general-head.mytests{
+  width: 99%;
+}
+.general-con.mytests{
+  border: 1px solid #676f9d;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.crcard.mytests{
+  width: 100%;
+  height: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.con-item.mytests{
+  width: 98%;
+}
+.info.session.mytests{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items:center;
+  justify-content: space-between;
+}
+.tc-status.mytests{
+  margin-right: 10px;
+}

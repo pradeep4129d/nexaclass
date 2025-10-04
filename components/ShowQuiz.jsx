@@ -90,7 +90,6 @@ export const ShowQuiz = () => {
     }
     const handleUpdate=async()=>{
         setIsLoading(true);
-        try {
         const token = sessionStorage.getItem("token");
         const res = await fetch("http://localhost:3000/faculty/quiz", {
             method: "PUT",
@@ -101,16 +100,10 @@ export const ShowQuiz = () => {
             body: JSON.stringify(quizItem),
         });
         if (res.ok) {
-            const response = await res.json();
-            console.log(response);
             setMessage({ color: "green", message:"updated successfully"});
         } else
             setMessage({ color: "crimson", message: "error creating" });
-        } catch (error) {
-        setMessage({ color: "crimson", message: "network error" });
-        } finally {
         setIsLoading(false);
-        }
     }
     const [displayForm,setDisplayForm]=useState(false)
 return (

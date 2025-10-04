@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import useStore from '../store/store';
 import { useNavigate } from 'react-router-dom';
 
 export const MySession = () => {
-    const { mySessionItem ,setTestItem} = useStore();
+    const { mySessionItem, setTestItem, activityReports} = useStore();
     const [activities, setActivities] = useState([]);
     const [timeLeft, setTimeLeft] = useState("");
-    const navigate=useNavigate();
-    const [attemptedTests,setAttemptedTests]=useState([]);
+    const navigate = useNavigate();
     const testActivities = activities.filter(item => item.test);
     const generalActivities = activities.filter(item => !item.test);
     const updateCountdown = () => {
@@ -24,6 +23,10 @@ export const MySession = () => {
             setTimeLeft("Session Ended");
         }
     };
+    const activityIdSet = useMemo(() => {
+        return new Set(activityReports.map(r => r.activityId));
+    }, [activityReports]);
+
     const formatTime = (ms) => {
         const totalSeconds = Math.floor(ms / 1000);
         const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, "0");
@@ -81,10 +84,10 @@ export const MySession = () => {
                                 </div>
                             </div> :
                             <>
-                                <div className="general-con">
-                                    <div className="general-head">General Activities ({generalActivities.length})</div>
+                                <div className="general-con mytests">
+                                    <div className="general-head mytests">General Activities ({generalActivities.length})</div>
                                     {generalActivities.map((item, index) => (
-                                        <div className={'con-item smcr '} key={index}>
+                                        <div className={'con-item mytests'} key={index}>
                                             <div className='crcard'>
                                                 <div className="icon">
                                                     <ion-icon name="reader-outline"></ion-icon>
@@ -94,14 +97,19 @@ export const MySession = () => {
                                                     <p className="item-text desc">{item.type === "quiz" ? item.quiz.description : item.task.description}</p>
                                                 </div>
                                             </div>
-                                            <button className='join' onClick={()=>{setTestItem(item);navigate("/test")}}>Attempt</button>
+                                            <button className={'join ' + (activityIdSet.has(item.id) ? "joined" : "")} onClick={() => {
+                                                if (!activityIdSet.has(item.id)) {
+                                                    setTestItem(item);
+                                                    navigate("/test")
+                                                }
+                                            }}>{activityIdSet.has(item.id) ? "Attempted" : "Attempt"}</button>
                                         </div>
-                                    ))} 
+                                    ))}
                                 </div>
-                                <div className="general-con">
-                                    <div className="general-head">Tests ({testActivities.length})</div>
+                                <div className="general-con mytests">
+                                    <div className="general-head mytests">Tests ({testActivities.length})</div>
                                     {testActivities.map((item, index) => (
-                                        <div className={'con-item smcr'} key={index}>
+                                        <div className={'con-item mytests'} key={index}>
                                             <div className='crcard'>
                                                 <div className="icon">
                                                     <ion-icon name="newspaper-outline"></ion-icon>
@@ -111,9 +119,12 @@ export const MySession = () => {
                                                     <p className="item-text desc">{item.type === "quiz" ? item.quiz.description : item.task.description}</p>
                                                 </div>
                                             </div>
-                                            <button className='join' onClick={()=>{
-                                                setTestItem(item);
-                                                navigate("/test")}}>Attempt</button>
+                                            <button className={'join ' + (activityIdSet.has(item.id) ? "joined" : "")} onClick={() => {
+                                                if (!activityIdSet.has(item.id)) {
+                                                    setTestItem(item);
+                                                    navigate("/test")
+                                                }
+                                            }}>{activityIdSet.has(item.id) ? "Attempted" : "Attempt"}</button>
                                         </div>
                                     ))}
                                 </div>

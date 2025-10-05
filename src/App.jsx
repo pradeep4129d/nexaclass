@@ -22,6 +22,7 @@ import { CodeEditor } from '../components/CodeEditor';
 import { TestReport } from '../components/TestReport';
 import { MyTestReports } from '../components/MyTestReports';
 import { MyNotes } from '../components/MyNotes';
+import MyNote from '../components/MyNote';
 
 function App() {
   const { login, isLoading, setLogin, setIsLoading, userData, setUserData, message, refresh, setActivityReports, setIsTest } = useStore();
@@ -116,7 +117,9 @@ function App() {
                   onOutputChange={(output) => console.log("Code output:", output)}
                 />} />
                 <Route path='/mytests' element={<MyTestReports />} />
-                <Route path='/mynotes' element={<MyNotes />} />
+                <Route path='/mynotes' element={<MyNotes />} >
+                  <Route path='note' element={<MyNote />}/>
+                </Route>
               </>
             }
           </> :

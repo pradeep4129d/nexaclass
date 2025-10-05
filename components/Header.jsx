@@ -37,7 +37,7 @@ export const Header = () => {
                             <div className="menu-list"><Link to="/">Class Rooms</Link></div>
                             <div className="menu-list"><Link to="/quizes">Quizes</Link></div>
                             <div className="menu-list"><Link to="/tasks">Tasks</Link></div>
-                            <div className="menu-list"><Link to="/tests">Tests Reports</Link></div>
+                            <div className="menu-list"><Link to="/testsreport">Tests Reports</Link></div>
                         </> : <>
                             <div className="menu-list"><Link to="/">All</Link></div>
                             <div className="menu-list"><Link to="/mycr">My ClassRooms</Link></div>
@@ -59,7 +59,7 @@ export const Header = () => {
                             <label className="tab_label" htmlFor="tab2">Quizes</label>
                             <input type="radio" name="tab" id="tab3" className="tab tab--3" onClick={() => { navigate("/tasks") }} />
                             <label className="tab_label" htmlFor="tab3">Tasks</label>
-                            <input type="radio" name="tab" id="tab4" className="tab tab--4" onClick={() => { navigate("/tests") }} />
+                            <input type="radio" name="tab" id="tab4" className="tab tab--4" onClick={() => { navigate("/testsreport") }} />
                             <label className="tab_label" htmlFor="tab4">Test Reports</label>
                         </> : <>
                             <input type="radio" name="tab" id="tab1" className="tab tab--1" onClick={() => { navigate("/") }} />

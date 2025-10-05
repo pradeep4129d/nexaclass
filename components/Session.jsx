@@ -204,7 +204,7 @@ export const Session = () => {
             <p>Oop's! No</p>
             <div className="tooltip-container">
               <span className="tooltip">Create</span>
-              <div className="text" onClick={() => { setDisplayForm(true) }}>acctivities</div>
+              <div className="text" onClick={() => { setDisplayForm(true) }}>activities</div>
               <p>to show!</p>
             </div>
           </div>

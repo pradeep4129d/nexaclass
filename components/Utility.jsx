@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import useStore from '../store/store';
 
 export const Utility = () => {
-    const { setIsLoading, setMessage, isTest, login } = useStore();
+    const { setIsLoading, setMessage, isTest, login,userData } = useStore();
     const chatBodyRef = useRef(null);
     const [hide, setHide] = useState(false);
     const [showChat, setShowChat] = useState(false);
@@ -13,6 +13,34 @@ export const Utility = () => {
     const [query, setQuery] = useState("");
     const [disableInput, setDisableInput] = useState(false);
     const [chatLoading, setChatLoading] = useState(false)
+    const [note, setNote] = useState({
+            studentId: userData && userData.id||-1,
+            note: "",
+            content: ""
+    })
+    const handleSubmit = async () => {
+        setIsLoading(true)
+        try {
+            const token = sessionStorage.getItem("token");
+            const res = await fetch(`http://localhost:3000/student/notes`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(note)
+            });
+            if (res.ok) {
+                setMessage({ color: "green", message: "Note Created Successfully." })
+                setNote({ studentId: userData.id, note: "", content: "" })
+                setShowNotes(false);
+            }
+        } catch (error) {
+            setMessage({ color: "crimson", message: "network error" });
+        } finally {
+            setIsLoading(false);
+        }
+    }
     useEffect(() => {
         if (chatBodyRef.current) {
             chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
@@ -57,12 +85,12 @@ export const Utility = () => {
         isTest ? setDisableChat(true) : setDisableChat(false)
     }, [isTest])
     return (
-        <div className={'utility-con ' + (hide ? "hide" : "view") + " " + (login ? "" : "disable")}>
+        <div className={'utility-con ' + (hide ? "hide" : "view") + " " + (login && userData && userData.role==="STUDENT" ? "" : "disable")}>
             <div className="action-wrap">
-                {!disableChat && <button className="action" type="button" onClick={() => { setShowChat(true); setShowNotes(false) }}>
+                {!disableChat && <button className="action" type="button" onClick={() => { setShowChat(showChat?false:true); setShowNotes(false) }}>
                     <ion-icon name="chatbox-ellipses-outline"></ion-icon>
                 </button>}
-                <button className="action" type="button" onClick={() => { setShowNotes(true); setShowChat(false) }}>
+                <button className="action" type="button" onClick={() => { setShowNotes(showNotes?false:true); setShowChat(false) }}>
                     <ion-icon name="clipboard-outline"></ion-icon>
                 </button>
                 <div className="backdrop"></div>
@@ -115,7 +143,10 @@ export const Utility = () => {
             }
             {
                 showNotes && <div className="show-notes">
-
+                    <div className="create-note">
+                        <input type="text" placeholder='Enter Your Note..' value={note.note} onChange={(e)=>{setNote({...note,note:e.target.value})}}/>
+                        <button className='join' onClick={handleSubmit}>Create</button>
+                    </div>
                 </div>
             }
         </div>

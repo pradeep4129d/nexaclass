@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react'
 import useStore from '../store/store'
+import { useLocation } from 'react-router-dom';
 
 export const MyTestReports = () => {
-  const { activityReports, setActivityReports } = useStore()
+  const { activityReports, setActivityReports,setIsTest } = useStore()
+  const location = useLocation();
+  useEffect(()=>{setIsTest(false)},[location.pathname])
   useEffect(() => {
     const sortedReports = [...activityReports].sort((a, b) => b.id - a.id);
     setActivityReports(sortedReports)

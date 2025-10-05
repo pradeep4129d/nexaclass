@@ -220,15 +220,19 @@
   .search {
     margin-left: 80%;
   }
+
   .con-item.smcr {
     width: 98%;
   }
+
   .test-area {
     width: 100%;
   }
+
   .test-area.task {
     overflow-x: hidden;
   }
+
   .question-prog {
     position: absolute;
     left: 6px;
@@ -242,9 +246,11 @@
     align-items: center;
     flex-direction: column;
   }
-  .question-con.task{
-    height:max-content;
+
+  .question-con.task {
+    height: max-content;
   }
+
   .q.task {
     width: 99%;
     border-radius: 10px;
@@ -252,10 +258,11 @@
     text-align: center;
     padding: 10px;
     margin-right: 15px;
-    max-height:1000px;
+    max-height: 1000px;
     overflow-y: visible;
     text-align: start;
   }
+
   .code-editor {
     position: absolute;
     left: 0;
@@ -337,18 +344,28 @@
   .editor.test {
     height: 70vh;
   }
-  .out{
+
+  .out {
     max-height: 80%;
     overflow-y: scroll;
   }
+
   .run-bar {
     display: none;
   }
-  .input-answer{
-  border: 1px solid #676f9d;
-  border-radius: 10px;
-  min-height: 60vh;
-  display: flex;
-  align-items: start;
-}
+
+  .input-answer {
+    border: 1px solid #676f9d;
+    border-radius: 10px;
+    min-height: 60vh;
+    display: flex;
+    align-items: start;
+  }
+
+  .chatbot-con {
+    width: 400px;
+    height: 500px;
+    border: 1px solid #676f9d;
+    border-radius: 10px;
+  }
 }

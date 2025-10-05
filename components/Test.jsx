@@ -7,7 +7,7 @@ import { color } from 'framer-motion';
 
 
 export const Test = () => {
-  const { testItem, userData, setIsLoading, setMessage, setActivityReports, mySessionItem } = useStore();
+  const { testItem, userData, setIsLoading, setMessage, setActivityReports, mySessionItem, setIsTest } = useStore();
   const updateCountdown = () => {
     const now = new Date();
     const start = new Date(mySessionItem.start);
@@ -19,7 +19,7 @@ export const Test = () => {
       const diff = end - now;
       setTimeLeft(`${formatTime(diff)}`);
     } else {
-      setMessage({color:"crimson",message:"Time Ended"});
+      setMessage({ color: "crimson", message: "Time Ended" });
       (testItem.type === 'quiz') ? handleSubmit() : handleTaskSubmit();
     }
   };
@@ -30,6 +30,9 @@ export const Test = () => {
     const seconds = String(totalSeconds % 60).padStart(2, "0");
     return `${hours}:${minutes}:${seconds}`;
   };
+  useEffect(() => {
+    setIsTest(true);
+  }, [])
   useEffect(() => {
     updateCountdown();
     const interval = setInterval(updateCountdown, 1000);
@@ -118,6 +121,7 @@ export const Test = () => {
       body: JSON.stringify(updatedReport),
     });
     setIsLoading(false);
+    setIsTest(false)
     if (res.ok) {
       const response = await res.json();
       setActivityReports(response);
@@ -154,6 +158,7 @@ export const Test = () => {
       body: JSON.stringify(updatedReport),
     });
     setIsLoading(false);
+    setIsTest(false)
     if (res.ok) {
       const response = await res.json();
       setActivityReports(response);
@@ -191,13 +196,13 @@ export const Test = () => {
       }, 3000);
       return () => clearInterval(interval);
     }
-  }, [testItem,displayInstructions, displayTestDetails]);
+  }, [testItem, displayInstructions, displayTestDetails]);
   useEffect(() => {
     if (testItem && testItem.test && !displayInstructions && !displayTestDetails) {
       const handleVisibilityChange = () => {
         if (document.hidden) {
-            (testItem.type === 'quiz') ? handleSubmit() : handleTaskSubmit();
-            console.log("Tab is inactive");
+          (testItem.type === 'quiz') ? handleSubmit() : handleTaskSubmit();
+          console.log("Tab is inactive");
         }
       };
       document.addEventListener("visibilitychange", handleVisibilityChange);
@@ -245,27 +250,29 @@ export const Test = () => {
     }
   }, [testItem]);
   useEffect(() => {
-    const handleBeforeUnload = (event) => {
-      (testItem.type === 'quiz') ? handleSubmit() : handleTaskSubmit();
-      event.preventDefault();
-      event.returnValue = "";
-    };
-    const handleBackButton = (event) => {
-      event.preventDefault();
-      (testItem.type === 'quiz') ? handleSubmit() : handleTaskSubmit();
-      const leave = window.confirm("Test is will be submitted, You cannot reattempt the test.");
-      if (!leave) {
-        window.history.pushState(null, "", window.location.pathname);
-      }
-    };
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    window.addEventListener("popstate", handleBackButton);
-    window.history.pushState(null, "", window.location.pathname);
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-      window.removeEventListener("popstate", handleBackButton);
-    };
-  }, []);
+    if (!displayInstructions && !displayTestDetails) {
+      const handleBeforeUnload = (event) => {
+        (testItem.type === 'quiz') ? handleSubmit() : handleTaskSubmit();
+        event.preventDefault();
+        event.returnValue = "";
+      };
+      const handleBackButton = (event) => {
+        event.preventDefault();
+        (testItem.type === 'quiz') ? handleSubmit() : handleTaskSubmit();
+        const leave = window.confirm("Test is will be submitted, You cannot reattempt the test.");
+        if (!leave) {
+          window.history.pushState(null, "", window.location.pathname);
+        }
+      };
+      window.addEventListener("beforeunload", handleBeforeUnload);
+      window.addEventListener("popstate", handleBackButton);
+      window.history.pushState(null, "", window.location.pathname);
+      return () => {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+        window.removeEventListener("popstate", handleBackButton);
+      };
+    }
+  }, [displayInstructions, displayTestDetails]);
   return (
     <div className='test-con'>
       {displayInstructions && <div className="instructions">

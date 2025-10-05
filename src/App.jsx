@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import useStore from '../store/store'
-import { Route, Routes, useNavigate } from 'react-router-dom'
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { Login } from '../components/Login';
 import Register from '../components/Register';
 import Loading from '../components/Loading';
@@ -21,10 +21,18 @@ import { MySession } from '../components/MySession';
 import { CodeEditor } from '../components/CodeEditor';
 import { TestReport } from '../components/TestReport';
 import { MyTestReports } from '../components/MyTestReports';
+import { MyNotes } from '../components/MyNotes';
 
 function App() {
-  const { login, isLoading, setLogin, setIsLoading, userData, setUserData, message, refresh, setActivityReports } = useStore();
+  const { login, isLoading, setLogin, setIsLoading, userData, setUserData, message, refresh, setActivityReports, setIsTest } = useStore();
   const navigate = useNavigate();
+  const location = useLocation();
+  useEffect(() => {
+    console.log(location.pathname)
+    if (location.pathname !== "/test") {
+      setIsTest(false);
+    }
+  }, [location.pathname])
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     if (token != null && userData == null) {
@@ -108,6 +116,7 @@ function App() {
                   onOutputChange={(output) => console.log("Code output:", output)}
                 />} />
                 <Route path='/mytests' element={<MyTestReports />} />
+                <Route path='/mynotes' element={<MyNotes />} />
               </>
             }
           </> :
